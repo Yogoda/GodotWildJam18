@@ -1,7 +1,38 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/tile.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export var lane_count = 3 setget set_lane
+var tile_count = 10
+
+var tile_scene = preload(\"res://Scenes/tile.tscn\")
+const tile_size = 128
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	_generate()
+
+func _generate():
+	
+	for child in get_children():
+		child.free()
+	
+	for l in range(0,lane_count - 1):
+		for t in range(0,tile_count - 1):
+			var tile = tile_scene.instance()
+			tile.position.y = l * tile_size
+			tile.position.x = t * tile_size
+			add_child(tile)
+			print('add child')
+
+func set_lane(count):
+	lane_count = count
+	_generate()
+"
 
 [node name="Node2D" type="CanvasLayer"]
 
@@ -47,90 +78,87 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
-[node name="Lane" type="Node2D" parent="."]
-position = Vector2( 362.472, 406.704 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Field" type="Node2D" parent="."]
+position = Vector2( 224.119, 348.581 )
+script = SubResource( 1 )
+
+[node name="Lane" type="Node2D" parent="Field"]
+position = Vector2( 15.8487, 11.6409 )
+scale = Vector2( 0.106209, 0.0915209 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite8" parent="Lane" instance=ExtResource( 2 )]
+[node name="Sprite8" parent="Field/Lane" instance=ExtResource( 2 )]
 scale = Vector2( 1, 1 )
 
-[node name="Sprite10" parent="Lane" instance=ExtResource( 2 )]
+[node name="Sprite10" parent="Field/Lane" instance=ExtResource( 2 )]
 position = Vector2( 124.391, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite11" parent="Lane" instance=ExtResource( 2 )]
+[node name="Sprite11" parent="Field/Lane" instance=ExtResource( 2 )]
 position = Vector2( 247.124, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite12" parent="Lane" instance=ExtResource( 2 )]
+[node name="Sprite12" parent="Field/Lane" instance=ExtResource( 2 )]
 position = Vector2( 369.857, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite13" parent="Lane" instance=ExtResource( 2 )]
+[node name="Sprite13" parent="Field/Lane" instance=ExtResource( 2 )]
 position = Vector2( 490.931, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Lane2" type="Node2D" parent="."]
-position = Vector2( 277.153, 464.321 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Lane2" type="Node2D" parent="Field"]
+position = Vector2( 10.6688, 24.3163 )
+scale = Vector2( 0.106209, 0.0915209 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite8" parent="Lane2" instance=ExtResource( 2 )]
+[node name="Sprite8" parent="Field/Lane2" instance=ExtResource( 2 )]
 scale = Vector2( 1, 1 )
 
-[node name="Sprite10" parent="Lane2" instance=ExtResource( 2 )]
+[node name="Sprite10" parent="Field/Lane2" instance=ExtResource( 2 )]
 position = Vector2( 124.391, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite11" parent="Lane2" instance=ExtResource( 2 )]
+[node name="Sprite11" parent="Field/Lane2" instance=ExtResource( 2 )]
 position = Vector2( 247.124, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite12" parent="Lane2" instance=ExtResource( 2 )]
+[node name="Sprite12" parent="Field/Lane2" instance=ExtResource( 2 )]
 position = Vector2( 369.857, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite13" parent="Lane2" instance=ExtResource( 2 )]
+[node name="Sprite13" parent="Field/Lane2" instance=ExtResource( 2 )]
 position = Vector2( 490.931, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Lane3" type="Node2D" parent="."]
-position = Vector2( 216.211, 524.155 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Lane3" type="Node2D" parent="Field"]
+position = Vector2( 10.912, 35.168 )
+scale = Vector2( 0.106209, 0.0915209 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Sprite8" parent="Lane3" instance=ExtResource( 2 )]
+[node name="Sprite8" parent="Field/Lane3" instance=ExtResource( 2 )]
 scale = Vector2( 1, 1 )
 
-[node name="Sprite10" parent="Lane3" instance=ExtResource( 2 )]
+[node name="Sprite10" parent="Field/Lane3" instance=ExtResource( 2 )]
 position = Vector2( 124.391, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite11" parent="Lane3" instance=ExtResource( 2 )]
+[node name="Sprite11" parent="Field/Lane3" instance=ExtResource( 2 )]
 position = Vector2( 247.124, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite12" parent="Lane3" instance=ExtResource( 2 )]
+[node name="Sprite12" parent="Field/Lane3" instance=ExtResource( 2 )]
 position = Vector2( 369.857, 0 )
 scale = Vector2( 1, 1 )
 
-[node name="Sprite13" parent="Lane3" instance=ExtResource( 2 )]
+[node name="Sprite13" parent="Field/Lane3" instance=ExtResource( 2 )]
 position = Vector2( 490.931, 0 )
 scale = Vector2( 1, 1 )
-
-[node name="Sprite9" type="Sprite" parent="."]
-position = Vector2( 266.222, 371.742 )
-scale = Vector2( 2.08303, 1.97147 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 300.748, 83.7769, 33.8093, 12.6016 )
 
 [node name="Sprite6" type="Sprite" parent="."]
 position = Vector2( 98.7461, 249.898 )
