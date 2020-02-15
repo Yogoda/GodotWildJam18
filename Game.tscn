@@ -1,0 +1,93 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://placeholders.png" type="Texture" id=1]
+
+[node name="Node2D" type="CanvasLayer"]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 512.743, 178.44 )
+scale = Vector2( 13.8293, 6.13706 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 159.621, 176.754, 74.2066, 58.4332 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 512.743, 444.004 )
+scale = Vector2( 14.2134, 5.52019 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 159.629, 95.023, 72.7726, 57.7162 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite3" type="Sprite" parent="."]
+position = Vector2( 92.8259, 356.415 )
+scale = Vector2( 1.54454, 1.55805 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 41.5731, 1.15518, 102.913, 250.705 )
+
+[node name="Sprite4" type="Sprite" parent="Sprite3"]
+show_behind_parent = true
+position = Vector2( 2.64233, 68.5403 )
+scale = Vector2( 1.2669, 0.625004 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0.562668, 85.4973, 33.2726, 156.304 )
+
+[node name="Sprite5" type="Sprite" parent="."]
+position = Vector2( 926.09, 453.142 )
+scale = Vector2( 3.76615, 4.37059 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
+
+[node name="Sprite8" type="Sprite" parent="."]
+position = Vector2( 269.864, 398.507 )
+scale = Vector2( 2.36448, 1.97147 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 250.341, 96.3785, 30.7357, 24.8959 )
+
+[node name="Sprite9" type="Sprite" parent="."]
+position = Vector2( 266.222, 371.742 )
+scale = Vector2( 2.08303, 1.97147 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 300.748, 83.7769, 33.8093, 12.6016 )
+
+[node name="Sprite6" type="Sprite" parent="."]
+position = Vector2( 98.7461, 249.898 )
+scale = Vector2( 1.33313, 1.31392 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 149.22, 25.0681, 53.1727, 55.6316 )
+
+[node name="Sprite7" type="Sprite" parent="."]
+position = Vector2( 99.6486, 216.957 )
+scale = Vector2( 1.33313, 1.27469 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 170.12, -2.28665, 12.909, 23.6665 )
+
+[node name="Sprite4" type="Sprite" parent="."]
+position = Vector2( 580.384, 331.774 )
+scale = Vector2( 1.54454, 1.55805 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 208.65, 23.0002, 72.7956, 42.5019 )
+
+[node name="Sprite4" type="Sprite" parent="Sprite4"]
+show_behind_parent = true
+position = Vector2( -0.507208, 5.64973 )
+scale = Vector2( 1.52936, 1.56662 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 295.775, 44.3381, 8.15628, 12.8783 )
+__meta__ = {
+"_edit_lock_": true
+}
