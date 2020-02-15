@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprite/Earth/earth_dry.png" type="Texture" id=1]
+[ext_resource path="res://Sprite/Earth/earth_normal.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/Earth/earth_wet.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+const max_wetness = 3.0
+var wetness
+
+var dry_speed = 0.2
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+
+  wetness = 3.0
+
+func _set_sprite():
+	
+	$earth_dry.visible = false
+	$earth_normal.visible = false
+	$earth_wet.visible = false
+	
+	if wetness < 1.0:
+		$earth_dry.visible = true
+	elif wetness < 2.0:
+		$earth_normal.visible = true
+	else:
+		$earth_wet.visible = true
+
+func _physics_process(delta):
+	
+	wetness -= dry_speed * delta
+	if wetness <= 0:
+		wetness = 0
+		
+	_set_sprite()
+"
+
+[node name="Tile" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="earth_wet" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="earth_normal" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="earth_dry" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 1 )

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/tile.tscn" type="PackedScene" id=2]
 
 [node name="Node2D" type="CanvasLayer"]
 
@@ -46,12 +47,25 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
-[node name="Sprite8" type="Sprite" parent="."]
-position = Vector2( 269.864, 398.507 )
-scale = Vector2( 2.36448, 1.97147 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 250.341, 96.3785, 30.7357, 24.8959 )
+[node name="Sprite8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 260.533, 420 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Sprite10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 310.289, 420 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Sprite11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 359.382, 420 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Sprite12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 408.475, 420 )
+scale = Vector2( 0.4, 0.4 )
+
+[node name="Sprite13" parent="." instance=ExtResource( 2 )]
+position = Vector2( 456.905, 420 )
+scale = Vector2( 0.4, 0.4 )
 
 [node name="Sprite9" type="Sprite" parent="."]
 position = Vector2( 266.222, 371.742 )
