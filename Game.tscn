@@ -3,15 +3,14 @@
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "tool
-extends Node2D
+script/source = "extends Node2D
 
-export var lane_count = 4 setget set_lane
-var tile_count = 10
+export var lane_count = 5 setget set_lane
+var tile_count = 8
 
 var tile_scene = preload(\"res://Scenes/tile.tscn\")
 const tile_size = 128
-export var tile_scale = 0.5
+var tile_scale = 0.6
 
 var tile_offset = 5
 
@@ -51,14 +50,11 @@ __meta__ = {
 }
 
 [node name="Sprite2" type="Sprite" parent="."]
-position = Vector2( 512.743, 444.004 )
-scale = Vector2( 14.2134, 5.52019 )
+position = Vector2( 512.743, 395.317 )
+scale = Vector2( 14.2134, 7.22851 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 159.629, 95.023, 72.7726, 57.7162 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Sprite3" type="Sprite" parent="."]
 position = Vector2( 92.8259, 356.415 )
@@ -83,9 +79,8 @@ region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
 [node name="Field" type="Node2D" parent="."]
-position = Vector2( 224.119, 348.581 )
+position = Vector2( 219.823, 246.911 )
 script = SubResource( 1 )
-tile_scale = 0.5
 
 [node name="Sprite6" type="Sprite" parent="."]
 position = Vector2( 98.7461, 249.898 )
