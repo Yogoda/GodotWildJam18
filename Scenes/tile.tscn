@@ -7,7 +7,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-const max_wetness = 3.0
+const max_wetness = 300
+const wetness_normal = 200
+const wetness_dry = 100
+
 var wetness
 
 var dry_speed = 0.2
@@ -15,7 +18,8 @@ var dry_speed = 0.2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-  wetness = 3.0
+  wetness = max_wetness
+  _set_sprite()
 
 func _set_sprite():
 	
@@ -23,20 +27,20 @@ func _set_sprite():
 	$earth_normal.visible = false
 	$earth_wet.visible = false
 	
-	if wetness < 1.0:
+	if wetness < wetness_dry:
 		$earth_dry.visible = true
-	elif wetness < 2.0:
+	elif wetness < wetness_normal:
 		$earth_normal.visible = true
 	else:
 		$earth_wet.visible = true
 
 func _physics_process(delta):
 	
-	wetness -= dry_speed * delta
-	if wetness <= 0:
-		wetness = 0
+	if wetness > 0:
 		
-	_set_sprite()
+		if randf() <= dry_speed:
+			wetness -= 1
+			_set_sprite()
 "
 
 [node name="Tile" type="Node2D"]

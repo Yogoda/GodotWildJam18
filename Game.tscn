@@ -47,25 +47,83 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
-[node name="Sprite8" parent="." instance=ExtResource( 2 )]
-position = Vector2( 260.533, 420 )
+[node name="Lane" type="Node2D" parent="."]
+position = Vector2( 362.472, 406.704 )
 scale = Vector2( 0.4, 0.4 )
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Sprite10" parent="." instance=ExtResource( 2 )]
-position = Vector2( 310.289, 420 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Sprite8" parent="Lane" instance=ExtResource( 2 )]
+scale = Vector2( 1, 1 )
 
-[node name="Sprite11" parent="." instance=ExtResource( 2 )]
-position = Vector2( 359.382, 420 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Sprite10" parent="Lane" instance=ExtResource( 2 )]
+position = Vector2( 124.391, 0 )
+scale = Vector2( 1, 1 )
 
-[node name="Sprite12" parent="." instance=ExtResource( 2 )]
-position = Vector2( 408.475, 420 )
-scale = Vector2( 0.4, 0.4 )
+[node name="Sprite11" parent="Lane" instance=ExtResource( 2 )]
+position = Vector2( 247.124, 0 )
+scale = Vector2( 1, 1 )
 
-[node name="Sprite13" parent="." instance=ExtResource( 2 )]
-position = Vector2( 456.905, 420 )
+[node name="Sprite12" parent="Lane" instance=ExtResource( 2 )]
+position = Vector2( 369.857, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite13" parent="Lane" instance=ExtResource( 2 )]
+position = Vector2( 490.931, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Lane2" type="Node2D" parent="."]
+position = Vector2( 277.153, 464.321 )
 scale = Vector2( 0.4, 0.4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite8" parent="Lane2" instance=ExtResource( 2 )]
+scale = Vector2( 1, 1 )
+
+[node name="Sprite10" parent="Lane2" instance=ExtResource( 2 )]
+position = Vector2( 124.391, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite11" parent="Lane2" instance=ExtResource( 2 )]
+position = Vector2( 247.124, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite12" parent="Lane2" instance=ExtResource( 2 )]
+position = Vector2( 369.857, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite13" parent="Lane2" instance=ExtResource( 2 )]
+position = Vector2( 490.931, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Lane3" type="Node2D" parent="."]
+position = Vector2( 216.211, 524.155 )
+scale = Vector2( 0.4, 0.4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite8" parent="Lane3" instance=ExtResource( 2 )]
+scale = Vector2( 1, 1 )
+
+[node name="Sprite10" parent="Lane3" instance=ExtResource( 2 )]
+position = Vector2( 124.391, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite11" parent="Lane3" instance=ExtResource( 2 )]
+position = Vector2( 247.124, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite12" parent="Lane3" instance=ExtResource( 2 )]
+position = Vector2( 369.857, 0 )
+scale = Vector2( 1, 1 )
+
+[node name="Sprite13" parent="Lane3" instance=ExtResource( 2 )]
+position = Vector2( 490.931, 0 )
+scale = Vector2( 1, 1 )
 
 [node name="Sprite9" type="Sprite" parent="."]
 position = Vector2( 266.222, 371.742 )
