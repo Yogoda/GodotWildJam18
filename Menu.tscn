@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="Menu" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_right = 162.0
+margin_bottom = 31.0
+text = "Godot Wild Jam #18"
+__meta__ = {
+"_edit_use_anchors_": false
+}
