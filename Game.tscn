@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -55,6 +56,9 @@ scale = Vector2( 14.2134, 7.22851 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 159.629, 95.023, 72.7726, 57.7162 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Sprite3" type="Sprite" parent="."]
 position = Vector2( 92.8259, 356.415 )
@@ -82,6 +86,10 @@ region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 position = Vector2( 219.823, 246.911 )
 script = SubResource( 1 )
 
+[node name="Drone" parent="." instance=ExtResource( 2 )]
+position = Vector2( 310.499, 514.317 )
+scale = Vector2( 1.2, 1.2 )
+
 [node name="Sprite6" type="Sprite" parent="."]
 position = Vector2( 98.7461, 249.898 )
 scale = Vector2( 1.33313, 1.31392 )
@@ -95,21 +103,3 @@ scale = Vector2( 1.33313, 1.27469 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 170.12, -2.28665, 12.909, 23.6665 )
-
-[node name="Sprite4" type="Sprite" parent="."]
-position = Vector2( 580.384, 331.774 )
-scale = Vector2( 1.54454, 1.55805 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 208.65, 23.0002, 72.7956, 42.5019 )
-
-[node name="Sprite4" type="Sprite" parent="Sprite4"]
-show_behind_parent = true
-position = Vector2( -0.507208, 5.64973 )
-scale = Vector2( 1.52936, 1.56662 )
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 295.775, 44.3381, 8.15628, 12.8783 )
-__meta__ = {
-"_edit_lock_": true
-}

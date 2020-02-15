@@ -21,6 +21,10 @@ boot_splash/image="res://wild_jam.png"
 boot_splash/bg_color=Color( 0.0784314, 0.133333, 0.25098, 1 )
 config/icon="res://icon.png"
 
+[autoload]
+
+GameManager="*res://game_manager.gd"
+
 [debug]
 
 gdscript/warnings/enable=false

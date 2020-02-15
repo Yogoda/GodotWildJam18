@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Sprite/Earth/earth_dry.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Earth/earth_normal.png" type="Texture" id=2]
 [ext_resource path="res://Sprite/Earth/earth_wet.png" type="Texture" id=3]
 [ext_resource path="res://Sprite/Corn/corn_stage6.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Earth/selection.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -44,6 +45,7 @@ func _ready():
 	
 	growth_stage = randi() % growth_stage_max
 	
+	show_selection(false)
 	_schedule_next_stage()
 	_update_sprite()
 
@@ -94,22 +96,42 @@ func _physics_process(delta):
 	if updated:
 		_update_sprite()
 
-
+func show_selection(show = true):
+	
+	if show:
+		$selection.show()
+		$selection2.show()
+	else:
+		$selection.hide()
+		$selection2.hide()
+		
 func _on_Collision_input_event(viewport, event, shape_idx):
+	
 	if event is InputEventMouseButton:
-		print('mouse button')
-		if event.pressed and event.button_index == 0:
-			print('left click')
+		if event.pressed and event.button_index == BUTTON_LEFT:
+			GameManager.drone.goto_tile(global_position)
+
+func _on_Collision_mouse_entered():
+	show_selection()
+
+func _on_Collision_mouse_exited():
+	show_selection(false)
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 63.609, 64.0676 )
+extents = Vector2( 63.3522, 59.1993 )
 
 [node name="Tile" type="Node2D"]
 script = SubResource( 1 )
 
+[node name="selection" type="Sprite" parent="."]
+position = Vector2( -0.00495744, -81.0365 )
+scale = Vector2( 1.06144, 0.940163 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 7.45681, 58.439, 120.586, 43.7976 )
+
 [node name="earth_wet" type="Sprite" parent="."]
-visible = false
 texture = ExtResource( 3 )
 
 [node name="earth_normal" type="Sprite" parent="."]
@@ -123,10 +145,37 @@ texture = ExtResource( 1 )
 position = Vector2( 0, -85.6192 )
 scale = Vector2( 1.1, 1.1 )
 texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="selection2" type="Sprite" parent="."]
+position = Vector2( 0, 42 )
+scale = Vector2( 1.06304, 1 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 7.45681, 58.439, 120.586, 43.7976 )
+
+[node name="selection3" type="Sprite" parent="selection2"]
+position = Vector2( 57.0049, -43.2919 )
+scale = Vector2( 1.38383, 1.21921 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0.435944, 0.553786, 4.6329, 102.851 )
+
+[node name="selection4" type="Sprite" parent="selection2"]
+position = Vector2( -57.475, -43.297 )
+scale = Vector2( 1.17968, 1.21931 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0.435944, 0.553786, 4.6329, 102.851 )
 
 [node name="Collision" type="StaticBody2D" parent="."]
 input_pickable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
+position = Vector2( -0.233032, -6.53552 )
 shape = SubResource( 2 )
 [connection signal="input_event" from="Collision" to="." method="_on_Collision_input_event"]
+[connection signal="mouse_entered" from="Collision" to="." method="_on_Collision_mouse_entered"]
+[connection signal="mouse_exited" from="Collision" to="." method="_on_Collision_mouse_exited"]
