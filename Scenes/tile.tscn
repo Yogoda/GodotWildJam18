@@ -109,18 +109,31 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
-			GameManager.drone.add_target(self)
+			if action_available():
+				GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_entered():
 	show_selection()
 
 func _on_Collision_mouse_exited():
 	show_selection(false)
+	
+func action_available():
+	
+	if growth_stage >= 1 and growth_stage < growth_stage_max and wetness > wetness_normal:
+		return false
+
+	return true
 
 func perform_action():
 	
 	if growth_stage == 0:
-		set_growth_stage(1)
+		
+		if wetness <= wetness_normal:
+			wetness = max_wetness
+			_update_sprite()
+		else:
+			set_growth_stage(1)
 	elif growth_stage == growth_stage_max:
 		set_growth_stage(0)
 	else:

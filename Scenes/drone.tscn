@@ -21,13 +21,16 @@ func _ready():
 	$AnimationPlayer.play(\"Fly\")
 	$AnimationPlayer.play(\"Fly_Up_Down\")
 	
+func _physics_process(delta):
+	
+	if target == null and targets.size() >= 1:
+		target = targets.pop_front()
+
+		goto_tile(target)
+	
 func add_target(tile):
 	
-	if target == null:
-		goto_tile(tile)
-		target = tile
-	else:
-		targets.push_back(tile)
+	targets.push_back(tile)
 	
 func goto_tile(tile):
 	
@@ -46,16 +49,33 @@ func perform_action():
 	target.perform_action()
 		
 func perform_next_action():
+	
+	target = null
 
-	target = targets.pop_front()
-
-	if target != null:
-		goto_tile(target)
+#	while true:
+#
+#		target = targets.pop_front()
+#
+#		print(\"target\" + str(target))
+#
+#		if target == null:
+#			break
+#
+#		if target.action_available():
+#			goto_tile(target)
+#		else:
+#			print(\"action not available\")
+#			target = null
+#			continue
 		
 func _on_Tween_tween_completed(object, key):
 	
 	if object == self and key == \":global_position\":
-		anim_tree.set(\"parameters/DoAction/active\", true)
+		
+		if target.action_available():
+			anim_tree.set(\"parameters/DoAction/active\", true)
+		else:
+			target = null
 "
 
 [sub_resource type="Animation" id=2]
