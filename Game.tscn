@@ -1,17 +1,22 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Sprite/Silo/silo.png" type="Texture" id=3]
-[ext_resource path="res://Sprite/Silo/silo_empty.png" type="Texture" id=4]
-[ext_resource path="res://Sprite/Silo/silo_wheel.png" type="Texture" id=5]
-[ext_resource path="res://Sprite/Silo/silo_full.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/silo.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends CanvasLayer
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	GameManager.start_game()
+"
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 export var lane_count = 5 setget set_lane
-var tile_count = 8
+var tile_count = 7
 
 var tile_scene = preload(\"res://Scenes/tile.tscn\")
 const tile_size = 128
@@ -43,6 +48,7 @@ func set_lane(count):
 "
 
 [node name="Node2D" type="CanvasLayer"]
+script = SubResource( 2 )
 
 [node name="Sky" type="Sprite" parent="."]
 position = Vector2( 512.743, 178.44 )
@@ -88,7 +94,7 @@ region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
 [node name="Field" type="Node2D" parent="."]
-position = Vector2( 249.297, 244.806 )
+position = Vector2( 325.122, 255.039 )
 script = SubResource( 1 )
 
 [node name="Drone" parent="." instance=ExtResource( 2 )]
@@ -111,24 +117,4 @@ texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 170.12, -2.28665, 12.909, 23.6665 )
 
-[node name="Silo" type="Node2D" parent="."]
-position = Vector2( 116.703, 236.045 )
-scale = Vector2( 0.335163, 0.335163 )
-
-[node name="silo_empty" type="Sprite" parent="Silo"]
-position = Vector2( -12.9874, 195.593 )
-texture = ExtResource( 4 )
-
-[node name="silo_wheel" type="Sprite" parent="Silo"]
-position = Vector2( -29.7565, -375.444 )
-rotation = 3.14159
-scale = Vector2( 0.968716, 0.968716 )
-texture = ExtResource( 5 )
-
-[node name="silo_full" type="Sprite" parent="Silo"]
-position = Vector2( -31.6869, 257.232 )
-scale = Vector2( 0.770301, 0.770301 )
-texture = ExtResource( 6 )
-
-[node name="Silo" type="Sprite" parent="Silo"]
-texture = ExtResource( 3 )
+[node name="Silo" parent="." instance=ExtResource( 3 )]
