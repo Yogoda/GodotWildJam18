@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprite/Silo/silo.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -61,6 +62,7 @@ __meta__ = {
 }
 
 [node name="Sprite3" type="Sprite" parent="."]
+visible = false
 position = Vector2( 92.8259, 356.415 )
 scale = Vector2( 1.54454, 1.55805 )
 texture = ExtResource( 1 )
@@ -91,6 +93,7 @@ position = Vector2( 310.499, 514.317 )
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Sprite6" type="Sprite" parent="."]
+visible = false
 position = Vector2( 98.7461, 249.898 )
 scale = Vector2( 1.33313, 1.31392 )
 texture = ExtResource( 1 )
@@ -98,8 +101,14 @@ region_enabled = true
 region_rect = Rect2( 149.22, 25.0681, 53.1727, 55.6316 )
 
 [node name="Sprite7" type="Sprite" parent="."]
+visible = false
 position = Vector2( 99.6486, 216.957 )
 scale = Vector2( 1.33313, 1.27469 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 170.12, -2.28665, 12.909, 23.6665 )
+
+[node name="Silo" type="Sprite" parent="."]
+position = Vector2( 151.966, 295.087 )
+scale = Vector2( 0.429314, 0.429314 )
+texture = ExtResource( 3 )

@@ -109,6 +109,7 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
+			print(\"clic on tile\")
 			if action_available():
 				GameManager.drone.add_target(self)
 
