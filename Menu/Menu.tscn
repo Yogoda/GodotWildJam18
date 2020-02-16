@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://gui_theme.tres" type="Theme" id=2]
 [ext_resource path="res://Menu/wild_jam.png" type="Texture" id=3]
 [ext_resource path="res://Menu/wildcards.png" type="Texture" id=4]
+[ext_resource path="res://Menu/plague.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
@@ -41,6 +42,12 @@ texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 318.895, 9, 238.105, 412 )
 
+[node name="wild_jam3" type="Sprite" parent="wild_jam2"]
+position = Vector2( 9.17503, 227.006 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 181.004, 433.576, 255.454, 49.1869 )
+
 [node name="Control" type="Control" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -59,13 +66,6 @@ texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 48, 39, 251, 355 )
 
-[node name="wild_jam3" type="Sprite" parent="Control"]
-position = Vector2( 382.682, 67 )
-scale = Vector2( 0.951517, 0.951517 )
-texture = ExtResource( 3 )
-region_enabled = true
-region_rect = Rect2( 181.004, 433.576, 255.454, 49.1869 )
-
 [node name="Center" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -75,24 +75,24 @@ __meta__ = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="Center"]
-margin_left = 370.0
-margin_top = 178.0
-margin_right = 653.0
-margin_bottom = 421.0
+margin_left = 340.0
+margin_top = 146.0
+margin_right = 684.0
+margin_bottom = 454.0
 
 [node name="Panel" type="Panel" parent="Center/PanelContainer"]
 margin_left = 6.0
 margin_top = 4.0
-margin_right = 277.0
-margin_bottom = 239.0
+margin_right = 338.0
+margin_bottom = 304.0
 rect_min_size = Vector2( 170, 200 )
 theme = ExtResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Center/PanelContainer"]
 margin_left = 6.0
 margin_top = 4.0
-margin_right = 277.0
-margin_bottom = 239.0
+margin_right = 338.0
+margin_bottom = 304.0
 custom_constants/margin_right = 16
 custom_constants/margin_top = 16
 custom_constants/margin_left = 16
@@ -104,8 +104,8 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="Center/PanelContainer/MarginContainer"]
 margin_left = 16.0
 margin_top = 16.0
-margin_right = 255.0
-margin_bottom = 219.0
+margin_right = 316.0
+margin_bottom = 284.0
 rect_min_size = Vector2( 100, 100 )
 theme = ExtResource( 2 )
 __meta__ = {
@@ -113,29 +113,34 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 239.0
-margin_bottom = 81.0
+margin_right = 300.0
+margin_bottom = 56.0
 rect_min_size = Vector2( 0, 56 )
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
-text = "Godot Wild Jam #18
-PLAGUE"
+text = "Godot Wild Jam #18"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TextureRect" type="TextureRect" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 60.0
+margin_right = 300.0
+margin_bottom = 146.0
+texture = ExtResource( 5 )
+
 [node name="BtnStart" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 85.0
-margin_right = 239.0
-margin_bottom = 107.0
+margin_top = 150.0
+margin_right = 300.0
+margin_bottom = 172.0
 theme = ExtResource( 2 )
 text = "START"
 
 [node name="BtnStory" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 111.0
-margin_right = 239.0
-margin_bottom = 133.0
+margin_top = 176.0
+margin_right = 300.0
+margin_bottom = 198.0
 theme = ExtResource( 2 )
 text = "STORY"
 __meta__ = {
@@ -143,30 +148,31 @@ __meta__ = {
 }
 
 [node name="BtnCredits" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 137.0
-margin_right = 239.0
-margin_bottom = 159.0
+margin_top = 202.0
+margin_right = 300.0
+margin_bottom = 224.0
 theme = ExtResource( 2 )
 text = "CREDITS"
 
 [node name="BtnExit" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 163.0
-margin_right = 239.0
-margin_bottom = 185.0
+margin_top = 228.0
+margin_right = 300.0
+margin_bottom = 250.0
 theme = ExtResource( 2 )
 text = "EXIT"
 
 [node name="LinkButton" type="LinkButton" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 189.0
-margin_right = 239.0
-margin_bottom = 203.0
+margin_top = 254.0
+margin_right = 300.0
+margin_bottom = 268.0
 text = "https://itch.io/jam/godot-wild-jam-18"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="wildcards2" type="Sprite" parent="."]
-position = Vector2( 247.228, 465.006 )
+position = Vector2( 695.98, 450 )
+rotation = 0.261799
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )
 region_enabled = true
