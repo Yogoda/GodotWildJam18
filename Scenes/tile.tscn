@@ -15,7 +15,7 @@ const wetness_dry = 0
 
 var wetness
 
-var dry_speed = 0.04
+var dry_speed = 0.1
 
 var growth_stage = 0
 const growth_stage_max = 6
