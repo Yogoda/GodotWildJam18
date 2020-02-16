@@ -55,16 +55,24 @@ func _ready():
 
 func _update_sprite():
 	
+	var flip = 1
+	
+	if randf() < 0.5:
+		flip = -1
+	
 	$earth_dry.visible = false
 	$earth_normal.visible = false
 	$earth_wet.visible = false
 	
 	if wetness <= wetness_dry:
 		$earth_dry.visible = true
+		$earth_dry.scale.x = flip
 	elif wetness <= wetness_normal:
 		$earth_normal.visible = true
+		$earth_normal.scale.x = flip
 	else:
 		$earth_wet.visible = true
+		$earth_wet.scale.x = flip
 		
 	if growth_stage == 0:
 		$Corn.visible = false
@@ -76,6 +84,7 @@ func _update_sprite():
 			4: $Corn.texture = gfx_corn_4
 			5: $Corn.texture = gfx_corn_5
 			6: $Corn.texture = gfx_corn_6
+		$Corn.scale.x = flip
 		$Corn.visible = true
 
 func _physics_process(delta):
@@ -86,13 +95,18 @@ func _physics_process(delta):
 		
 		if randf() <= dry_speed:
 			wetness -= 1
-			_update_sprite()
+			
+			if wetness == wetness_dry or wetness == wetness_normal:
+				_update_sprite()
 			
 	if growth_counter > 0:
 		
-		growth_counter -= 1;
+		if wetness > wetness_normal:
+			growth_counter -= 2;
+		elif wetness > wetness_dry:
+			growth_counter -= 1;
 		
-		if growth_counter == 0:
+		if growth_counter <= 0:
 			set_growth_stage(growth_stage + 1)
 
 func show_selection(show = true):
@@ -110,8 +124,7 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
 			print(\"clic on tile\")
-			if action_available():
-				GameManager.drone.add_target(self)
+			GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_entered():
 	show_selection()
@@ -129,12 +142,7 @@ func action_available():
 func perform_action():
 	
 	if growth_stage == 0:
-		
-		if wetness <= wetness_normal:
-			wetness = max_wetness
-			_update_sprite()
-		else:
-			set_growth_stage(1)
+		set_growth_stage(1)
 	elif growth_stage == growth_stage_max:
 		set_growth_stage(0)
 	else:

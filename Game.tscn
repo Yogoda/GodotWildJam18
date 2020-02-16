@@ -78,14 +78,14 @@ region_enabled = true
 region_rect = Rect2( 0.562668, 85.4973, 33.2726, 156.304 )
 
 [node name="Sprite5" type="Sprite" parent="."]
-position = Vector2( 926.09, 453.142 )
+position = Vector2( 939.774, 443.668 )
 scale = Vector2( 3.76615, 4.37059 )
 texture = ExtResource( 1 )
 region_enabled = true
 region_rect = Rect2( 248.294, 181.343, 48.3597, 59.5983 )
 
 [node name="Field" type="Node2D" parent="."]
-position = Vector2( 219.823, 246.911 )
+position = Vector2( 249.297, 244.806 )
 script = SubResource( 1 )
 
 [node name="Drone" parent="." instance=ExtResource( 2 )]
@@ -109,6 +109,6 @@ region_enabled = true
 region_rect = Rect2( 170.12, -2.28665, 12.909, 23.6665 )
 
 [node name="Silo" type="Sprite" parent="."]
-position = Vector2( 151.966, 295.087 )
-scale = Vector2( 0.429314, 0.429314 )
+position = Vector2( 116.703, 236.045 )
+scale = Vector2( 0.335163, 0.335163 )
 texture = ExtResource( 3 )
