@@ -1,14 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/silo.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Sprite/Rocket/launcher_hinge.png" type="Texture" id=4]
-[ext_resource path="res://Sprite/Rocket/launcher_lid.png" type="Texture" id=5]
-[ext_resource path="res://Sprite/Rocket/launcher_base.png" type="Texture" id=6]
-[ext_resource path="res://Sprite/Rocket/launcher_button.png" type="Texture" id=7]
-[ext_resource path="res://Sprite/Rocket/rocket.png" type="Texture" id=8]
-[ext_resource path="res://Sprite/Rocket/rocket_trail.png" type="Texture" id=9]
+[ext_resource path="res://Scenes/launcher.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends CanvasLayer
@@ -86,34 +81,5 @@ scale = Vector2( 1.2, 1.2 )
 
 [node name="Silo" parent="." instance=ExtResource( 3 )]
 
-[node name="Launcher" type="Node2D" parent="."]
-position = Vector2( 935.061, 598.67 )
-scale = Vector2( 0.410976, 0.410976 )
-
-[node name="launcher_lid" type="Sprite" parent="Launcher"]
-position = Vector2( 118.765, -10.5178 )
-rotation = -0.0101234
-texture = ExtResource( 5 )
-offset = Vector2( -115.664, -51.0578 )
-
-[node name="launcher_button" type="Sprite" parent="Launcher/launcher_lid"]
-modulate = Color( 1, 0, 0, 1 )
-show_behind_parent = true
-position = Vector2( -122.839, -101.222 )
-texture = ExtResource( 7 )
-
-[node name="launcher_base" type="Sprite" parent="Launcher"]
-texture = ExtResource( 6 )
-
-[node name="launcher_hinge" type="Sprite" parent="Launcher"]
-position = Vector2( 125.442, -13.5878 )
-texture = ExtResource( 4 )
-
-[node name="rocket" type="Sprite" parent="Launcher"]
-position = Vector2( -24.3945, -751.102 )
-texture = ExtResource( 8 )
-
-[node name="rocket_trail" type="Sprite" parent="Launcher/rocket"]
-show_behind_parent = true
-position = Vector2( 6.24561, 337.253 )
-texture = ExtResource( 9 )
+[node name="Launcher" parent="." instance=ExtResource( 4 )]
+position = Vector2( 915.572, 596.096 )
