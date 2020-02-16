@@ -109,13 +109,19 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 	
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
-			GameManager.drone.goto_tile(global_position)
+			
+			GameManager.target_tile = self
+			GameManager.drone.goto(global_position)
 
 func _on_Collision_mouse_entered():
 	show_selection()
 
 func _on_Collision_mouse_exited():
 	show_selection(false)
+
+func perform_action():
+	
+	print(\"action\")
 "
 
 [sub_resource type="RectangleShape2D" id=2]

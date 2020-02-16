@@ -40,7 +40,7 @@ func set_lane(count):
 
 [node name="Node2D" type="CanvasLayer"]
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sky" type="Sprite" parent="."]
 position = Vector2( 512.743, 178.44 )
 scale = Vector2( 13.8293, 6.13706 )
 texture = ExtResource( 1 )
@@ -50,7 +50,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Sprite2" type="Sprite" parent="."]
+[node name="Ground" type="Sprite" parent="."]
 position = Vector2( 512.743, 395.317 )
 scale = Vector2( 14.2134, 7.22851 )
 texture = ExtResource( 1 )

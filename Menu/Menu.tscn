@@ -170,8 +170,16 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="wildcards3" type="Sprite" parent="."]
+position = Vector2( 783.34, 454 )
+rotation = 0.785397
+scale = Vector2( 0.704992, 0.704992 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 2, -3, 223, 305 )
+
 [node name="wildcards2" type="Sprite" parent="."]
-position = Vector2( 695.98, 450 )
+position = Vector2( 674.01, 403.475 )
 rotation = 0.261799
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )

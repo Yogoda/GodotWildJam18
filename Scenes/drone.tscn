@@ -6,16 +6,29 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
+export var speed = 0.01
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	GameManager.drone = self
+	$AnimationTree.active = true
 	$AnimationPlayer.play(\"Fly\")
 	$AnimationPlayer.play(\"Fly_Up_Down\")
 	
-func goto_tile(position):
+func goto(new_position):
 	
-	global_position = position
+#	global_position = position
+	
+	$Tween.stop_all()
+	$Tween.interpolate_property(self, 
+								\"global_position\", 
+								global_position, 
+								new_position,
+								(new_position - global_position).length() * speed,
+								Tween.TRANS_QUAD)
+
+	$Tween.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -25,6 +38,12 @@ func goto_tile(position):
 #
 #	frame1.visible = !frame1.visible
 #	frame2.visible = !frame2.visible
+
+
+func _on_Tween_tween_completed(object, key):
+	
+	if object == self and key == \":global_position\":
+		GameManager.target_tile.perform_action()
 "
 
 [sub_resource type="Animation" id=2]
@@ -94,9 +113,10 @@ node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 
 "Drone",
 ]]
 script = SubResource( 1 )
+speed = 0.003
 
 [node name="Node2D" type="Node2D" parent="."]
-position = Vector2( -0.253398, -73.899 )
+position = Vector2( -0.253398, -75.369 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -116,5 +136,7 @@ anims/Fly_Up_Down = SubResource( 3 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 7 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/Blend2/blend_amount = 0.5
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
