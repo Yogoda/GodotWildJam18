@@ -177,7 +177,7 @@ nodes/DoAction/position = Vector2( 200, 280 )
 nodes/TimeScale/node = SubResource( 10 )
 nodes/TimeScale/position = Vector2( 0, 440 )
 nodes/output/position = Vector2( 720, 200 )
-node_connections = [ "output", 0, "Blend2", "DoAction", 0, "Animation 2", "DoAction", 1, "TimeScale", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale", 0, "Animation 3" ]
+node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoAction", 0, "Animation 2", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",

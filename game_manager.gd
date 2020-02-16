@@ -16,7 +16,7 @@ var drone
 var silo
 
 var day = 0
-var time_speed = 5
+var time_speed = 0.8
 
 func start_game():
 	
@@ -25,6 +25,10 @@ func start_game():
 func _physics_process(delta):
 	
 	if game_phase == game_phases.GAME_RUNNING:
+		
+		if silo.level == silo.level_max:
+			print("GOOD JOB!")
+			game_phase = game_phases.GAME_ENDING
 		
 		day += time_speed * delta
 		

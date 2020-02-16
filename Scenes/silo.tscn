@@ -27,12 +27,17 @@ onready var wheel = $silo_wheel
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
 	set_level(0)
 	GameManager.silo = self
 	
 func set_day(day):
 	
 	wheel.rotation_degrees = -180 - day
+	
+func add(value):
+	
+	set_level(level + value)
 	
 func set_level(l):
 	
