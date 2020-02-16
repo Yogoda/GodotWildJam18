@@ -8,6 +8,9 @@ script/source = "extends Node2D
 
 export var speed = 0.01
 
+var targets
+var target
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -16,34 +19,36 @@ func _ready():
 	$AnimationPlayer.play(\"Fly\")
 	$AnimationPlayer.play(\"Fly_Up_Down\")
 	
-func goto(new_position):
+	targets = []
 	
-#	global_position = position
+func add_target(tile):
+	
+	if target == null:
+		goto_tile(tile)
+		target = tile
+	else:
+		targets.push_back(tile)
+	
+func goto_tile(tile):
 	
 	$Tween.stop_all()
 	$Tween.interpolate_property(self, 
 								\"global_position\", 
 								global_position, 
-								new_position,
-								(new_position - global_position).length() * speed,
+								tile.global_position,
+								(tile.global_position - global_position).length() * speed,
 								Tween.TRANS_QUAD)
 
 	$Tween.start()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-#func _physics_process(delta):
-#
-#	frame1.visible = !frame1.visible
-#	frame2.visible = !frame2.visible
-
-
 func _on_Tween_tween_completed(object, key):
 	
 	if object == self and key == \":global_position\":
-		GameManager.target_tile.perform_action()
+		target.perform_action()
+		target = targets.pop_front()
+		
+		if target != null:
+			goto_tile(target)
 "
 
 [sub_resource type="Animation" id=2]

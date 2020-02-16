@@ -27,7 +27,6 @@ func _on_LinkButton_pressed():
 func _on_BtnStart_pressed():
 	get_tree().change_scene(\"res://Game.tscn\")
 
-
 func _on_BtnStory_pressed():
 	get_tree().change_scene(\"res://Story.tscn\")
 "

@@ -9,20 +9,21 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-const max_wetness = 300
+const max_wetness = 600
 const wetness_normal = 200
-const wetness_dry = 100
+const wetness_dry = 0
 
 var wetness
 
-var dry_speed = 0.2
+var dry_speed = 0.04
 
 var growth_stage = 0
 const growth_stage_max = 6
 
+const growth_speed = 0.2
 var growth_counter;
-var growth_base = 300;
-var growth_rand = 200;
+var growth_base = int(300 / growth_speed);
+var growth_rand = int(200 / growth_speed);
 
 var gfx_corn_1 = preload(\"res://Sprite/Corn/corn_stage1.png\")
 var gfx_corn_2 = preload(\"res://Sprite/Corn/corn_stage2.png\")
@@ -31,23 +32,26 @@ var gfx_corn_4 = preload(\"res://Sprite/Corn/corn_stage4.png\")
 var gfx_corn_5 = preload(\"res://Sprite/Corn/corn_stage5.png\")
 var gfx_corn_6 = preload(\"res://Sprite/Corn/corn_stage6.png\")
 
-func _schedule_next_stage():
+func set_growth_stage(stage):
+	
+	growth_stage = stage
 	
 	if growth_stage > 0 and growth_stage < growth_stage_max:
 		growth_counter = growth_base + randi() % growth_rand
 	else:
 		growth_counter = 0
+		
+	_update_sprite()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 
-	wetness = max_wetness
-	
-	growth_stage = randi() % growth_stage_max
+	wetness = wetness_normal
+	set_growth_stage(0)
+#	set_growth_stage(randi() % growth_stage_max)
+#	growth_counter = randi() % growth_rand
 	
 	show_selection(false)
-	_schedule_next_stage()
-	_update_sprite()
 
 func _update_sprite():
 	
@@ -55,9 +59,9 @@ func _update_sprite():
 	$earth_normal.visible = false
 	$earth_wet.visible = false
 	
-	if wetness < wetness_dry:
+	if wetness <= wetness_dry:
 		$earth_dry.visible = true
-	elif wetness < wetness_normal:
+	elif wetness <= wetness_normal:
 		$earth_normal.visible = true
 	else:
 		$earth_wet.visible = true
@@ -82,19 +86,14 @@ func _physics_process(delta):
 		
 		if randf() <= dry_speed:
 			wetness -= 1
-			updated = true
+			_update_sprite()
 			
 	if growth_counter > 0:
 		
 		growth_counter -= 1;
 		
 		if growth_counter == 0:
-			growth_stage += 1
-			_schedule_next_stage()
-			updated = true
-			
-	if updated:
-		_update_sprite()
+			set_growth_stage(growth_stage + 1)
 
 func show_selection(show = true):
 	
@@ -110,8 +109,7 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
-			GameManager.target_tile = self
-			GameManager.drone.goto(global_position)
+			GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_entered():
 	show_selection()
@@ -121,7 +119,13 @@ func _on_Collision_mouse_exited():
 
 func perform_action():
 	
-	print(\"action\")
+	if growth_stage == 0:
+		set_growth_stage(1)
+	elif growth_stage == growth_stage_max:
+		set_growth_stage(0)
+	else:
+		wetness = max_wetness
+		_update_sprite()
 "
 
 [sub_resource type="RectangleShape2D" id=2]
