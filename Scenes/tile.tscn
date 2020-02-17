@@ -9,6 +9,8 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
+enum tile_action {NONE, PLANT, WATER, HARVEST, BURN}
+
 const max_wetness = 400
 const wetness_normal = 100
 const wetness_dry = 0
@@ -129,16 +131,24 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 
 func _on_Collision_mouse_entered():
 	show_selection()
+	
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		print(\"clic on tile\")
+		GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_exited():
 	show_selection(false)
 	
-func action_available():
+func get_available_action():
 	
-	if growth_stage >= 1 and growth_stage < growth_stage_max and wetness > wetness_normal:
-		return false
-
-	return true
+	if growth_stage == 0:
+		return tile_action.PLANT
+	elif growth_stage == growth_stage_max:
+		return tile_action.HARVEST
+	elif wetness <= wetness_normal:
+		return tile_action.WATER
+	else:
+		return tile_action.NONE
 
 func perform_action():
 	

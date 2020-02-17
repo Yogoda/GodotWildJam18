@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Sprite/Drone/drone1.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Drone/drone2.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/water.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sounds/water.wav" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -20,6 +22,9 @@ func _ready():
 	$AnimationTree.active = true
 	$AnimationPlayer.play(\"Fly\")
 	$AnimationPlayer.play(\"Fly_Up_Down\")
+	
+	$WaterLeft.emitting = false
+	$WaterRight.emitting = false
 	
 func _physics_process(delta):
 	
@@ -47,19 +52,28 @@ func goto_tile(tile):
 func perform_action():
 	
 	target.perform_action()
-		
-func perform_next_action():
-	
-	target = null
 
 func _on_Tween_tween_completed(object, key):
 	
-	if object == self and key == \":global_position\":
-		
-		if target.action_available():
-			anim_tree.set(\"parameters/DoAction/active\", true)
-		else:
-			target = null
+	var action = target.get_available_action()
+	
+	if action == target.tile_action.PLANT or action == target.tile_action.HARVEST:
+		anim_tree.set(\"parameters/DoAction/active\", true)
+		$ActionTimer.start()
+	elif action == target.tile_action.WATER:
+		anim_tree.set(\"parameters/Water/active\", true)
+		$WaterLeft.emitting = true
+		$WaterRight.emitting = true
+		$SndWater.play()
+		$ActionTimer.start()
+	else:
+		target = null
+
+func _on_ActionTimer_timeout():
+	
+	$WaterLeft.emitting = false
+	$WaterRight.emitting = false
+	target = null
 "
 
 [sub_resource type="Animation" id=2]
@@ -136,48 +150,75 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.6, 1.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "perform_action"
-}, {
-"args": [  ],
-"method": "perform_next_action"
 } ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=5]
-animation = "Fly_Up_Down"
+[sub_resource type="Animation" id=5]
+resource_name = "Water"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "perform_action"
+} ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=6]
-animation = "Pickup"
+animation = "Fly_Up_Down"
 
 [sub_resource type="AnimationNodeAnimation" id=7]
+animation = "Pickup"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "Water"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Fly"
 
-[sub_resource type="AnimationNodeBlend2" id=8]
+[sub_resource type="AnimationNodeBlend2" id=10]
 
-[sub_resource type="AnimationNodeOneShot" id=9]
+[sub_resource type="AnimationNodeOneShot" id=11]
 
-[sub_resource type="AnimationNodeTimeScale" id=10]
+[sub_resource type="AnimationNodeTimeScale" id=12]
 
-[sub_resource type="AnimationNodeBlendTree" id=11]
-graph_offset = Vector2( -289, 253.25 )
-nodes/Animation/node = SubResource( 7 )
-nodes/Animation/position = Vector2( 80, 140 )
-"nodes/Animation 2/node" = SubResource( 5 )
-"nodes/Animation 2/position" = Vector2( -100, 300 )
-"nodes/Animation 3/node" = SubResource( 6 )
+[sub_resource type="AnimationNodeTimeScale" id=13]
+
+[sub_resource type="AnimationNodeOneShot" id=14]
+
+[sub_resource type="AnimationNodeBlendTree" id=15]
+graph_offset = Vector2( -542.6, 128.504 )
+nodes/Animation/node = SubResource( 9 )
+nodes/Animation/position = Vector2( 140, 20 )
+"nodes/Animation 2/node" = SubResource( 6 )
+"nodes/Animation 2/position" = Vector2( -280, 80 )
+"nodes/Animation 3/node" = SubResource( 7 )
 "nodes/Animation 3/position" = Vector2( -240, 480 )
-nodes/Blend2/node = SubResource( 8 )
+"nodes/Animation 4/node" = SubResource( 8 )
+"nodes/Animation 4/position" = Vector2( -460, 280 )
+nodes/Blend2/node = SubResource( 10 )
 nodes/Blend2/position = Vector2( 440, 100 )
-nodes/DoAction/node = SubResource( 9 )
+nodes/DoAction/node = SubResource( 11 )
 nodes/DoAction/position = Vector2( 200, 280 )
-nodes/TimeScale/node = SubResource( 10 )
+nodes/TimeScale/node = SubResource( 13 )
 nodes/TimeScale/position = Vector2( 0, 440 )
-nodes/output/position = Vector2( 720, 200 )
-node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoAction", 0, "Animation 2", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3" ]
+"nodes/TimeScale 2/node" = SubResource( 12 )
+"nodes/TimeScale 2/position" = Vector2( -220, 260 )
+nodes/Water/node = SubResource( 14 )
+nodes/Water/position = Vector2( -20, 180 )
+nodes/output/position = Vector2( 740, 200 )
+node_connections = [ "output", 0, "Blend2", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "TimeScale 2", 0, "Animation 4", "TimeScale", 0, "Animation 3" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
@@ -203,13 +244,36 @@ autoplay = "Fly"
 anims/Fly = SubResource( 2 )
 anims/Fly_Up_Down = SubResource( 3 )
 anims/Pickup = SubResource( 4 )
+anims/Water = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 11 )
+tree_root = SubResource( 15 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/Blend2/blend_amount = 0.5
 parameters/DoAction/active = false
 parameters/TimeScale/scale = 1.6
+"parameters/TimeScale 2/scale" = 1.6
+parameters/Water/active = false
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="WaterLeft" parent="." instance=ExtResource( 3 )]
+rotation = 0.758125
+emitting = false
+gravity = Vector2( 0, 50 )
+
+[node name="WaterRight" parent="." instance=ExtResource( 3 )]
+position = Vector2( 18.1355, -39.446 )
+rotation = -0.750492
+emitting = false
+gravity = Vector2( 0, 98 )
+
+[node name="ActionTimer" type="Timer" parent="."]
+wait_time = 0.688
+one_shot = true
+
+[node name="SndWater" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -7.174
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]
