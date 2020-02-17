@@ -42,7 +42,7 @@ func set_growth_stage(stage):
 		growth_counter = growth_base + randi() % growth_rand
 	else:
 		growth_counter = 0
-		
+
 	_update_sprite()
 
 # Called when the node enters the scene tree for the first time.
@@ -91,9 +91,7 @@ func _update_sprite():
 		$Corn.visible = true
 
 func _physics_process(delta):
-	
-	var updated:bool = false
-	
+
 	if wetness > 0:
 		
 		if randf() <= dry_speed:
@@ -102,7 +100,7 @@ func _physics_process(delta):
 			if wetness == wetness_dry or wetness == wetness_normal:
 				_update_sprite()
 			
-	if growth_counter > 0:
+	if growth_stage > 0 and growth_stage < growth_stage_max and growth_counter > 0:
 		
 		if wetness > wetness_normal:
 			growth_counter -= 2;
