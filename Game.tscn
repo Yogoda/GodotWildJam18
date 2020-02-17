@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://placeholders.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://Scenes/launcher.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/field.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Sprite/Effects/rain.png" type="Texture" id=6]
+[ext_resource path="res://Sprite/Background/clouds.png" type="Texture" id=7]
+[ext_resource path="res://Sprite/Background/fog.png" type="Texture" id=8]
+[ext_resource path="res://Sprite/Background/background.png" type="Texture" id=9]
+[ext_resource path="res://Sprite/Background/sun.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
@@ -15,7 +19,7 @@ func _ready():
 	GameManager.start_game()
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
 
 # Called when the node enters the scene tree for the first time.
@@ -23,7 +27,7 @@ func _ready():
 	GameManager.swarms = self
 "
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends Sprite
 
 export var x_speed = 100
@@ -45,6 +49,7 @@ func _process(delta):
 script = SubResource( 1 )
 
 [node name="Sky" type="Sprite" parent="."]
+visible = false
 position = Vector2( 512.743, 178.44 )
 scale = Vector2( 13.8293, 6.13706 )
 texture = ExtResource( 1 )
@@ -54,7 +59,20 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 512.089, 300.862 )
+texture = ExtResource( 9 )
+
+[node name="sun" type="Sprite" parent="."]
+position = Vector2( 634.906, 62.1173 )
+texture = ExtResource( 10 )
+
+[node name="clouds" type="Sprite" parent="."]
+position = Vector2( 515.186, 70.0969 )
+texture = ExtResource( 7 )
+
 [node name="Ground" type="Sprite" parent="."]
+visible = false
 position = Vector2( 512.743, 395.317 )
 scale = Vector2( 14.2134, 7.22851 )
 texture = ExtResource( 1 )
@@ -72,7 +90,7 @@ __meta__ = {
 position = Vector2( 915.572, 596.096 )
 
 [node name="Swarms" type="Node2D" parent="."]
-script = SubResource( 3 )
+script = SubResource( 2 )
 
 [node name="Spawns" type="Node2D" parent="Swarms"]
 
@@ -99,6 +117,10 @@ position = Vector2( 734.979, -114.259 )
 position = Vector2( 310.499, 514.317 )
 scale = Vector2( 1.2, 1.2 )
 
+[node name="fog" type="Sprite" parent="."]
+position = Vector2( 514.02, 302.201 )
+texture = ExtResource( 8 )
+
 [node name="FxRain" type="Sprite" parent="."]
 scale = Vector2( 0.369525, 0.369301 )
 texture = ExtResource( 6 )
@@ -106,7 +128,7 @@ centered = false
 flip_h = true
 region_enabled = true
 region_rect = Rect2( 15, 4, 2780.18, 1613.78 )
-script = SubResource( 4 )
+script = SubResource( 3 )
 x_speed = 289
 y_speed = -468
 speedup = 1.609
@@ -118,7 +140,7 @@ centered = false
 flip_h = true
 region_enabled = true
 region_rect = Rect2( 15, 4, 3635.1, 2346.51 )
-script = SubResource( 4 )
+script = SubResource( 3 )
 x_speed = 289
 y_speed = -468
 speedup = 1.859
