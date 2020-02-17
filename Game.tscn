@@ -29,14 +29,16 @@ script/source = "extends Sprite
 export var x_speed = 100
 export var y_speed = 100
 
+export var speedup = 1.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
 	
-	region_rect.position.x += x_speed * delta
-	region_rect.position.y += y_speed * delta
+	region_rect.position.x += x_speed * delta * speedup
+	region_rect.position.y += y_speed * delta * speedup
 "
 
 [node name="Node2D" type="CanvasLayer"]
@@ -98,7 +100,6 @@ position = Vector2( 310.499, 514.317 )
 scale = Vector2( 1.2, 1.2 )
 
 [node name="FxRain" type="Sprite" parent="."]
-position = Vector2( 0.577454, 3.30002 )
 scale = Vector2( 0.369525, 0.369301 )
 texture = ExtResource( 6 )
 centered = false
@@ -108,6 +109,7 @@ region_rect = Rect2( 15, 4, 2780.18, 1613.78 )
 script = SubResource( 4 )
 x_speed = 289
 y_speed = -468
+speedup = 1.609
 
 [node name="FxRain2" type="Sprite" parent="FxRain"]
 scale = Vector2( 0.761279, 0.691066 )
@@ -119,3 +121,4 @@ region_rect = Rect2( 15, 4, 3635.1, 2346.51 )
 script = SubResource( 4 )
 x_speed = 289
 y_speed = -468
+speedup = 1.859
