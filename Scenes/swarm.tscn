@@ -15,11 +15,13 @@ const speed = 0.01
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	target = GameManager.field.get_rand_tile()
-	
+	target = GameManager.field.get_tile_for_swarm()
+
 	goto_tile(target)
 	
 func goto_tile(tile):
+	
+	tile.targetted_by_swarm = self
 	
 	$Tween.stop_all()
 	$Tween.interpolate_property(self, 
@@ -35,6 +37,9 @@ func goto_tile(tile):
 func _process(delta):
 
 	pass
+
+func _on_Tween_tween_completed(object, key):
+	target.swarm = self
 "
 
 [sub_resource type="Animation" id=2]
@@ -68,3 +73,4 @@ autoplay = "Fly"
 anims/Fly = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

@@ -52,20 +52,41 @@ func goto_tile(tile):
 func perform_action():
 	
 	target.perform_action()
-
+	
+func do_harvest_action():
+	
+	anim_tree.set(\"parameters/DoAction/active\", true)
+	$ActionTimer.start()
+	
+func do_water_action():
+	
+	anim_tree.set(\"parameters/Water/active\", true)
+	$WaterLeft.emitting = true
+	$WaterRight.emitting = true
+	$SndWater.play()
+	$ActionTimer.start()
+	
+func do_burn_action():
+	
+#	anim_tree.set(\"parameters/Water/active\", true)
+#	$WaterLeft.emitting = true
+#	$WaterRight.emitting = true
+#	$SndWater.play()
+	
+	target.clear_swarm()
+	
+	$ActionTimer.start()
+	
 func _on_Tween_tween_completed(object, key):
 	
 	var action = target.get_available_action()
 	
 	if action == target.tile_action.PLANT or action == target.tile_action.HARVEST:
-		anim_tree.set(\"parameters/DoAction/active\", true)
-		$ActionTimer.start()
+		do_harvest_action()
 	elif action == target.tile_action.WATER:
-		anim_tree.set(\"parameters/Water/active\", true)
-		$WaterLeft.emitting = true
-		$WaterRight.emitting = true
-		$SndWater.play()
-		$ActionTimer.start()
+		do_water_action()
+	elif action == target.tile_action.BURN:
+		do_burn_action()
 	else:
 		target = null
 
@@ -218,7 +239,7 @@ nodes/TimeScale/position = Vector2( 0, 440 )
 nodes/Water/node = SubResource( 14 )
 nodes/Water/position = Vector2( -20, 180 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "TimeScale 2", 0, "Animation 4", "TimeScale", 0, "Animation 3" ]
+node_connections = [ "output", 0, "Blend2", "TimeScale 2", 0, "Animation 4", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale", 0, "Animation 3", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "DoAction", 0, "Water", "DoAction", 1, "TimeScale" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",

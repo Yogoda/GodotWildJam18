@@ -4,6 +4,7 @@
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/silo.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/launcher.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/field.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
@@ -11,52 +12,6 @@ script/source = "extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameManager.start_game()
-"
-
-[sub_resource type="GDScript" id=2]
-script/source = "extends Node2D
-
-export var lane_count = 5 setget set_lane
-var tile_count = 7
-
-var tile_scene = preload(\"res://Scenes/tile.tscn\")
-const tile_size = 128
-var tile_scale = 0.6
-
-var tile_offset = 5
-
-var tiles = []
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	
-	GameManager.field = self
-	
-	_generate()
-
-func _generate():
-	
-	for child in get_children():
-		child.free()
-	
-	for l in range(0,lane_count):
-		for t in range(0,tile_count):
-			var tile:Node2D = tile_scene.instance()
-			tile.scale = Vector2(tile_scale, tile_scale)
-			tile.position.y = l * tile_size * tile_scale - l*tile_offset
-			tile.position.x = t * tile_size * tile_scale
-			add_child(tile)
-			
-			tiles.append(tile)
-
-func set_lane(count):
-	lane_count = count
-	print('update')
-	_generate()
-
-func get_rand_tile():
-	
-	return tiles[randi() % tiles.size()]
 "
 
 [sub_resource type="GDScript" id=3]
@@ -90,9 +45,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Field" type="Node2D" parent="."]
-position = Vector2( 325.122, 255.039 )
-script = SubResource( 2 )
+[node name="Field" parent="." instance=ExtResource( 5 )]
 
 [node name="Silo" parent="." instance=ExtResource( 3 )]
 

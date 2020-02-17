@@ -34,6 +34,9 @@ var gfx_corn_4 = preload(\"res://Sprite/Corn/corn_stage4.png\")
 var gfx_corn_5 = preload(\"res://Sprite/Corn/corn_stage5.png\")
 var gfx_corn_6 = preload(\"res://Sprite/Corn/corn_stage6.png\")
 
+var targetted_by_swarm
+var swarm
+
 func set_growth_stage(stage):
 	
 	growth_stage = stage
@@ -139,7 +142,9 @@ func _on_Collision_mouse_exited():
 	
 func get_available_action():
 	
-	if growth_stage == 0:
+	if swarm != null:
+		return tile_action.BURN
+	elif growth_stage == 0:
 		return tile_action.PLANT
 	elif growth_stage == growth_stage_max:
 		return tile_action.HARVEST
@@ -147,6 +152,21 @@ func get_available_action():
 		return tile_action.WATER
 	else:
 		return tile_action.NONE
+		
+func attracts_swarm():
+
+	if growth_stage > 0 and targetted_by_swarm == null:
+		return true
+	else:
+		return false
+		
+func clear_swarm():
+	
+	if targetted_by_swarm != null:
+	
+		targetted_by_swarm.queue_free()
+		targetted_by_swarm = null
+		swarm = null
 
 func perform_action():
 	
