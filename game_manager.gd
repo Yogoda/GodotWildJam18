@@ -2,7 +2,7 @@ extends Node
 
 enum game_phases {MENU, GAME_RUNNING, GAME_ENDING}
 enum seasons {SPRING, SUMMER, FALL, WINTER}
-enum weathers {SUNNY, CLOUDY}
+enum weathers {SUNNY, CLOUDY, RAIN}
 
 var game_phase = game_phases.MENU
 
@@ -14,6 +14,7 @@ const c_summer = 90
 const c_fall = 180
 const c_winter = 270
 
+var game
 var field
 var drone
 var silo
@@ -27,8 +28,25 @@ const swarm_spawn_rand = 2
 
 const swarm_scene = preload("res://Scenes/swarm.tscn")
 
-func start_game():
+const rain_duration = 5
+var rain_counter = 0
+
+func weather_rocket():
 	
+	set_weather(weathers.RAIN)
+
+func set_weather(w):
+	
+	weather = w
+	
+	game.make_it_rain()
+	
+	if weather == weathers.CLOUDY:
+		$Clouds.show()
+
+func start_game(game):
+	
+	self.game = game
 	game_phase = game_phases.GAME_RUNNING
 	_schedule_next_swarm()
 	

@@ -20,6 +20,10 @@ var button_counter = 0
 func _ready():
 	_enable_button(true)
 	$launcher_lid/StaticBody2D.show()
+	
+func weather_rocket():
+	
+	GameManager.weather_rocket()
 
 func _on_StaticBody2D_input_event(viewport, event, shape_idx):
 	
@@ -142,6 +146,20 @@ tracks/1/keys = {
 "points": PoolRealArray( 266.998, -0.39, 166.388, 0.39, -166.388, -1178.81, -0.34, 1204.52, 0.34, -1204.52, -3574.91, -0.18, 1011.39, 0.18, -1011.39 ),
 "times": PoolRealArray( 0, 0.9, 1.5 )
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 1.9 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "weather_rocket"
+} ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Button_Inactive"
@@ -152,9 +170,9 @@ animation = "Open"
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Button_Blink"
 
-[sub_resource type="AnimationNodeOneShot" id=10]
+[sub_resource type="AnimationNodeOneShot" id=9]
 
-[sub_resource type="AnimationNodeBlend2" id=9]
+[sub_resource type="AnimationNodeBlend2" id=10]
 
 [sub_resource type="AnimationNodeBlendTree" id=11]
 graph_offset = Vector2( 229, 17 )
@@ -164,12 +182,12 @@ nodes/Animation/position = Vector2( 280, 280 )
 "nodes/Animation 2/position" = Vector2( 280, 160 )
 "nodes/Animation 3/node" = SubResource( 7 )
 "nodes/Animation 3/position" = Vector2( 500, 400 )
-nodes/Fire/node = SubResource( 10 )
+nodes/Fire/node = SubResource( 9 )
 nodes/Fire/position = Vector2( 820, 200 )
-nodes/Pressed/node = SubResource( 9 )
+nodes/Pressed/node = SubResource( 10 )
 nodes/Pressed/position = Vector2( 560, 160 )
 nodes/output/position = Vector2( 1020, 220 )
-node_connections = [ "output", 0, "Fire", "Fire", 0, "Pressed", "Fire", 1, "Animation 3", "Pressed", 0, "Animation 2", "Pressed", 1, "Animation" ]
+node_connections = [ "output", 0, "Fire", "Pressed", 0, "Animation 2", "Pressed", 1, "Animation", "Fire", 0, "Pressed", "Fire", 1, "Animation 3" ]
 
 [node name="Launcher" type="Node2D"]
 scale = Vector2( 0.410976, 0.410976 )
@@ -225,17 +243,14 @@ parameters/Pressed/blend_amount = 0.0
 
 [node name="Clic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
-bus = "Sounds"
 
 [node name="SndButtonRelease" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 volume_db = -2.69
-bus = "Sounds"
 
 [node name="SndRocket" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -7.172
-bus = "Sounds"
 
 [node name="Launch" type="Timer" parent="."]
 wait_time = 0.3
