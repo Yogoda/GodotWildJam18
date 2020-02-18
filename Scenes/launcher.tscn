@@ -21,9 +21,9 @@ func _ready():
 	_enable_button(true)
 	$launcher_lid/StaticBody2D.show()
 	
-func weather_rocket():
+func spin_wheel():
 	
-	GameManager.weather_rocket()
+	GameManager.spin_wheel()
 
 func _on_StaticBody2D_input_event(viewport, event, shape_idx):
 	
@@ -153,11 +153,11 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 1.9 ),
+"times": PoolRealArray( 1.1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "weather_rocket"
+"method": "spin_wheel"
 } ]
 }
 
@@ -194,7 +194,7 @@ scale = Vector2( 0.410976, 0.410976 )
 script = SubResource( 1 )
 
 [node name="rocket" type="Sprite" parent="."]
-position = Vector2( 11.088, -3574.91 )
+position = Vector2( 11.088, 266.998 )
 texture = ExtResource( 5 )
 
 [node name="rocket_trail" type="Sprite" parent="rocket"]
@@ -204,7 +204,6 @@ texture = ExtResource( 6 )
 
 [node name="launcher_lid" type="Sprite" parent="."]
 position = Vector2( 118.765, -10.5178 )
-rotation = -0.00872665
 texture = ExtResource( 2 )
 offset = Vector2( -115.664, -51.0578 )
 
@@ -250,7 +249,8 @@ volume_db = -2.69
 
 [node name="SndRocket" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
-volume_db = -7.172
+volume_db = -17.572
+pitch_scale = 0.9
 
 [node name="Launch" type="Timer" parent="."]
 wait_time = 0.3

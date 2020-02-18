@@ -1,0 +1,86 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/Wheel/wheel.png" type="Texture" id=1]
+[ext_resource path="res://Sprite/Wheel/wheel_ring.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Sprite
+
+signal sig_rain
+signal sig_acid_rain
+
+var speed_max = 1000
+var speed
+onready var wheel = $Wheel
+
+var break_time_min = 1
+var break_time_rand = 1
+var break_time
+
+var rolling = false
+var breaking = false
+
+var break_force = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	
+	GameManager.wheel = self
+	hide()
+
+func spin():
+	
+	show()
+	randomize()
+	break_time = break_time_min + break_time_rand * randf()
+	
+	rolling = true
+	breaking = false
+	speed = speed_max
+	
+func _process(delta):
+	
+	if rolling:
+		
+		wheel.rotation_degrees += speed * delta
+		
+		if break_time > 0:
+			break_time -= delta
+			if break_time <= 0:
+				breaking = true
+				
+		if breaking:
+			speed -= break_force * delta
+			break_force += 180 * delta
+			
+		if speed <= 0.01:
+			rolling = false
+			
+			wheel.rotation_degrees = int(wheel.rotation_degrees) % 360
+			
+			if wheel.rotation_degrees >= 0 and wheel.rotation_degrees <= 90:
+				emit_signal(\"sig_acid_rain\")
+			else:
+				emit_signal(\"sig_rain\")
+				
+			$Timer.start()
+		
+func _on_Timer_timeout():
+	hide()
+"
+
+[node name="Wheel" type="Sprite"]
+texture = ExtResource( 2 )
+script = SubResource( 1 )
+
+[node name="Wheel" type="Sprite" parent="."]
+show_behind_parent = true
+position = Vector2( 0.553223, 2.38446 )
+rotation = 2.21831
+texture = ExtResource( 1 )
+offset = Vector2( -0.553223, -5.24844 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

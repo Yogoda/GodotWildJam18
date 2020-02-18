@@ -2,7 +2,7 @@ extends Node
 
 enum game_phases {MENU, GAME_RUNNING, GAME_ENDING}
 enum seasons {SPRING, SUMMER, FALL, WINTER}
-enum {SUNNY, CLOUDY, RAIN}
+enum {SUNNY, CLOUDY, RAIN, ACID_RAIN}
 
 var game_phase = game_phases.MENU
 
@@ -19,6 +19,7 @@ var field
 var drone
 var silo
 var swarms
+var wheel
 
 var day = 0
 var time_speed = 0.8
@@ -39,13 +40,25 @@ func start_game(game):
 	
 	self.game = game
 	game_phase = game_phases.GAME_RUNNING
+	
+	wheel.connect("sig_rain", self, "set_rain")
+	wheel.connect("sig_acid_rain", self, "set_acid_rain")
+	
 	_schedule_next_swarm()
 	
 	set_weather(SUNNY)
+	
+func spin_wheel():
+	
+	wheel.spin()
 
-func weather_rocket():
+func set_rain():
 	
 	set_weather(RAIN)
+	
+func set_acid_rain():
+	
+	set_weather(ACID_RAIN)
 	
 func _schedule_next_swarm():
 	
@@ -64,12 +77,15 @@ func _spawn_swarm():
 	
 func set_weather(new_weather):
 	
-	if new_weather == RAIN:
+	if new_weather == RAIN or new_weather == ACID_RAIN:
 		
 		if weather == SUNNY:
 			game.set_cloudy()
 			
-		weather_counter = game.set_rain()
+		if new_weather == RAIN:
+			weather_counter = game.set_rain()
+		else:
+			weather_counter = game.set_acid_rain()
 		
 	else:
 		
