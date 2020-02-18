@@ -11,10 +11,11 @@ script/source = "extends Node2D
 
 enum tile_action {NONE, PLANT, WATER, HARVEST, BURN}
 
-const max_wetness = 400
+const wetness_max = 400
 const wetness_normal = 100
 const wetness_dry = 0
-
+const rain_hydration_speed = 0.3
+const rain_hydration = 1
 var wetness
 
 var dry_speed = 0.1
@@ -58,6 +59,23 @@ func _ready():
 	growth_counter = randi() % growth_rand
 
 	show_selection(false)
+	
+	_flip_random()
+	
+func _rand():
+	
+	if randi() % 2 == 0:
+		return true
+		
+	return false
+	
+func _flip_random():
+	
+	$earth_dry.flip_h = _rand()
+	$earth_normal.flip_h = _rand()
+	$earth_wet.flip_h = _rand()
+	
+	$Corn.flip_h = _rand()
 
 func _update_sprite():
 	
@@ -72,13 +90,10 @@ func _update_sprite():
 	
 	if wetness <= wetness_dry:
 		$earth_dry.visible = true
-		$earth_dry.scale.x = flip
 	elif wetness <= wetness_normal:
 		$earth_normal.visible = true
-		$earth_normal.scale.x = flip
 	else:
 		$earth_wet.visible = true
-		$earth_wet.scale.x = flip
 		
 	if growth_stage == 0:
 		$Corn.visible = false
@@ -90,18 +105,24 @@ func _update_sprite():
 			4: $Corn.texture = gfx_corn_4
 			5: $Corn.texture = gfx_corn_5
 			6: $Corn.texture = gfx_corn_6
-		$Corn.scale.x = flip
 		$Corn.visible = true
 
 func _physics_process(delta):
 
-	if wetness > 0:
+	if GameManager.weather == GameManager.RAIN:
 		
-		if randf() <= dry_speed:
-			wetness -= 1
+		if wetness < wetness_max and randf() < rain_hydration_speed:
+			wetness += rain_hydration
+			clamp(wetness, 0, wetness_max)
+			_update_sprite()
+	else:
+		if wetness > 0:
 			
-			if wetness == wetness_dry or wetness == wetness_normal:
-				_update_sprite()
+			if randf() <= dry_speed:
+				wetness -= 1
+				
+				if wetness == wetness_dry or wetness == wetness_normal:
+					_update_sprite()
 			
 	if growth_stage > 0 and growth_stage < growth_stage_max and growth_counter > 0:
 		
@@ -177,7 +198,7 @@ func perform_action():
 		GameManager.silo.add(25)
 		set_growth_stage(0)
 	else:
-		wetness = max_wetness
+		wetness = wetness_max
 		_update_sprite()
 "
 

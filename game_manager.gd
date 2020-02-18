@@ -2,12 +2,12 @@ extends Node
 
 enum game_phases {MENU, GAME_RUNNING, GAME_ENDING}
 enum seasons {SPRING, SUMMER, FALL, WINTER}
-enum weathers {SUNNY, CLOUDY, RAIN}
+enum {SUNNY, CLOUDY, RAIN}
 
 var game_phase = game_phases.MENU
 
 var season = seasons.SPRING
-var weather = weathers.SUNNY
+var weather = SUNNY
 
 const c_spring = 0
 const c_summer = 90
@@ -31,24 +31,21 @@ const swarm_scene = preload("res://Scenes/swarm.tscn")
 const rain_duration = 5
 var rain_counter = 0
 
-func weather_rocket():
-	
-	set_weather(weathers.RAIN)
-
-func set_weather(w):
-	
-	weather = w
-	
-	game.make_it_rain()
-	
-	if weather == weathers.CLOUDY:
-		$Clouds.show()
+var weather_min = 10
+var weather_max = 60
+var weather_counter = 0
 
 func start_game(game):
 	
 	self.game = game
 	game_phase = game_phases.GAME_RUNNING
 	_schedule_next_swarm()
+	
+	set_weather(SUNNY)
+
+func weather_rocket():
+	
+	set_weather(RAIN)
 	
 func _schedule_next_swarm():
 	
@@ -64,6 +61,26 @@ func _spawn_swarm():
 	
 	swarm.global_position = spawn.global_position
 	swarms.add_child(swarm)
+	
+func set_weather(new_weather):
+	
+	if new_weather == RAIN:
+		
+		if weather == SUNNY:
+			game.set_cloudy()
+			
+		weather_counter = game.set_rain()
+		
+	else:
+		
+		if new_weather == SUNNY:
+			game.set_sunny()
+		elif new_weather == CLOUDY:
+			game.set_cloudy()
+			
+		weather_counter = weather_min + randf() * (weather_max - weather_min)
+			
+	weather = new_weather
 	
 func _physics_process(delta):
 	
@@ -96,3 +113,11 @@ func _physics_process(delta):
 		if day >= c_winter:
 			print("ITS WINTER, GAME OVER")
 			game_phase = game_phases.GAME_ENDING
+
+		weather_counter -= delta
+		
+		if weather_counter <= 0:
+			if weather == SUNNY:
+				set_weather(CLOUDY)
+			else:
+				set_weather(SUNNY)

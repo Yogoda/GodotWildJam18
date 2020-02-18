@@ -1,5 +1,6 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=16 format=2]
 
+[ext_resource path="res://rain.anim" type="Animation" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/silo.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/launcher.tscn" type="PackedScene" id=4]
@@ -22,12 +23,16 @@ func _ready():
 
 	GameManager.start_game(self)
 
-func make_it_rain():
+func set_rain():
 	
-	$AnimationPlayer.play(\"set_rain\")
+	$AnimRain.play(\"rain\")
+	return $AnimRain.get_animation(\"rain\").length
 	
-	$Clouds.visible = true
-	$Fog.visible = true
+func set_sunny():
+	$AnimClouds.play(\"set_sunny\")
+	
+func set_cloudy():
+	$AnimClouds.play(\"set_cloudy\")
 "
 
 [sub_resource type="GDScript" id=2]
@@ -108,36 +113,7 @@ tracks/3/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-resource_name = "set_rain"
-length = 10.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("Rain:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 10 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Rain:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 9.7, 10 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.772549 ), Color( 1, 1, 1, 0.803922 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=10]
 resource_name = "set_sunny"
-length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Clouds:visible")
 tracks/0/interp = 1
@@ -145,10 +121,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true, true ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Fog:visible")
@@ -157,47 +133,35 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Rain:visible")
+tracks/2/path = NodePath("Clouds:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-
-[sub_resource type="AnimationNodeAnimation" id=6]
-animation = "set_rain"
-
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "Sunny"
-
-[sub_resource type="AnimationNodeAnimation" id=12]
-animation = "set_cloudy"
-
-[sub_resource type="AnimationNodeOneShot" id=13]
-
-[sub_resource type="AnimationNodeBlendTree" id=9]
-graph_offset = Vector2( -266, 67.5 )
-nodes/Animation/node = SubResource( 12 )
-nodes/Animation/position = Vector2( -220, 300 )
-"nodes/Animation 2/node" = SubResource( 6 )
-"nodes/Animation 2/position" = Vector2( 480, 260 )
-"nodes/Animation 3/node" = SubResource( 11 )
-"nodes/Animation 3/position" = Vector2( -220, 140 )
-nodes/OneShot/node = SubResource( 13 )
-nodes/OneShot/position = Vector2( 160, 280 )
-nodes/output/position = Vector2( 420, 160 )
-node_connections = [ "output", 0, "OneShot", "OneShot", 0, "Animation 3", "OneShot", 1, "Animation" ]
+tracks/3/type = "value"
+tracks/3/path = NodePath("Fog:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="Game" type="CanvasLayer"]
 script = SubResource( 1 )
@@ -211,7 +175,6 @@ position = Vector2( 634.906, 62.1173 )
 texture = ExtResource( 10 )
 
 [node name="Clouds" type="Sprite" parent="."]
-visible = false
 position = Vector2( 515.186, 70.0969 )
 texture = ExtResource( 7 )
 
@@ -251,12 +214,11 @@ position = Vector2( 310.499, 514.317 )
 scale = Vector2( 1.2, 1.2 )
 
 [node name="Fog" type="Sprite" parent="."]
-visible = false
 position = Vector2( 514.02, 302.201 )
 texture = ExtResource( 8 )
 
 [node name="Rain" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.795767 )
+modulate = Color( 1, 1, 1, 0.782895 )
 scale = Vector2( 0.369525, 0.369301 )
 texture = ExtResource( 6 )
 centered = false
@@ -280,12 +242,9 @@ x_speed = 289
 y_speed = -468
 speedup = 1.859
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimClouds" type="AnimationPlayer" parent="."]
 anims/set_cloudy = SubResource( 4 )
-anims/set_rain = SubResource( 5 )
-anims/set_sunny = SubResource( 10 )
+anims/set_sunny = SubResource( 5 )
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 9 )
-anim_player = NodePath("../AnimationPlayer")
-parameters/OneShot/active = false
+[node name="AnimRain" type="AnimationPlayer" parent="."]
+anims/rain = ExtResource( 1 )
