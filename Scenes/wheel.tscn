@@ -51,7 +51,7 @@ func _process(delta):
 				
 		if breaking:
 			speed -= break_force * delta
-			break_force += 180 * delta
+			break_force += 160 * delta
 			
 		if speed <= 0.01:
 			rolling = false
