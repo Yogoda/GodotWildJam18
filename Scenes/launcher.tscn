@@ -41,17 +41,13 @@ func _on_StaticBody2D_input_event(viewport, event, shape_idx):
 func _on_Launch_timeout():
 	
 	$AnimationTree.set(\"parameters/Fire/active\", true)
-#	$SndRocket.play()
+	$SndRocket.play()
 			
 func _enable_button(enabled):
 	
 	if enabled:
-#		$launcher_lid/launcher_button.modulate = Color('ff0000')
-#		$AnimationPlayer.play(\"Button_Blink\", -1)
 		$AnimationTree.set(\"parameters/Pressed/blend_amount\", 1)
 	else:
-#		$launcher_lid/launcher_button.modulate = Color('4e4e4e')
-#		$AnimationPlayer.play(\"Button_Inactive\", -1)
 		$AnimationTree.set(\"parameters/Pressed/blend_amount\", 0)
 			
 func _physics_process(delta):
