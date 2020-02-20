@@ -176,7 +176,7 @@ func get_available_action():
 		
 func attracts_swarm():
 
-	if growth_stage > 0 and targetted_by_swarm == null:
+	if growth_stage > 0 and swarm == null and targetted_by_swarm == null:
 		return true
 	else:
 		return false

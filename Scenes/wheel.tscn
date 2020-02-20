@@ -22,6 +22,11 @@ var breaking = false
 
 var break_force = 0
 
+var margin = 20
+var reverse_speed = 40
+
+var dir = 1
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -45,25 +50,52 @@ func _process(delta):
 		wheel.rotation_degrees += speed * delta
 		
 		if break_time > 0:
+			
 			break_time -= delta
 			if break_time <= 0:
 				breaking = true
 				
 		if breaking:
-			speed -= break_force * delta
+			
+			if speed >= 0:
+				speed -= break_force * delta
+				if speed < 0:
+					speed = 0
+			else:
+				speed += break_force * delta
+				if speed > 0:
+					speed = 0
+				
 			break_force += 160 * delta
 			
-		if speed <= 0.01:
-			rolling = false
+		if abs(speed) <= 0.02:
 			
-			wheel.rotation_degrees = int(wheel.rotation_degrees) % 360
-			
-			if wheel.rotation_degrees >= 0 and wheel.rotation_degrees <= 90:
-				emit_signal(\"sig_acid_rain\")
-			else:
-				emit_signal(\"sig_rain\")
+			var r =  int(wheel.rotation_degrees) % 90
+			print(speed)
+			print('babadu')
+			if r <= margin or r >= 90 - margin:
 				
-			$Timer.start()
+				dir *= -1
+				
+				if dir == 1:
+					speed = -reverse_speed
+				else:
+					speed = reverse_speed
+					
+				break_force = 0
+				
+			else:
+				
+				rolling = false
+				
+				wheel.rotation_degrees = int(wheel.rotation_degrees) % 360
+				
+				if wheel.rotation_degrees >= 0 and wheel.rotation_degrees <= 90:
+					emit_signal(\"sig_acid_rain\")
+				else:
+					emit_signal(\"sig_rain\")
+					
+				$Timer.start()
 		
 func _on_Timer_timeout():
 	hide()

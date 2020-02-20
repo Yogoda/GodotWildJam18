@@ -41,7 +41,7 @@ func _on_StaticBody2D_input_event(viewport, event, shape_idx):
 func _on_Launch_timeout():
 	
 	$AnimationTree.set(\"parameters/Fire/active\", true)
-	$SndRocket.play()
+#	$SndRocket.play()
 			
 func _enable_button(enabled):
 	

@@ -254,7 +254,6 @@ position = Vector2( 514.02, 302.201 )
 texture = ExtResource( 8 )
 
 [node name="Rain" type="Sprite" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0 )
 scale = Vector2( 0.369525, 0.369301 )
 texture = ExtResource( 6 )

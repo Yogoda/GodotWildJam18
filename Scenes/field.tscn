@@ -55,7 +55,7 @@ func get_tile_for_swarm():
 		if tile.attracts_swarm():
 			return tile
 			
-	return get_rand_tile()
+	return null
 "
 
 [node name="Field" type="Node2D"]
