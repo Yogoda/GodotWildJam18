@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Sprite/Drone/drone1.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Drone/drone2.png" type="Texture" id=2]
@@ -22,6 +22,8 @@ var target
 
 onready var anim_tree = $AnimationTree
 
+var last_pos
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -34,6 +36,17 @@ func _ready():
 	$WaterRight.emitting = false
 	
 func _physics_process(delta):
+
+	var velocity
+	
+	if last_pos != null:
+		velocity = global_position.x - last_pos.x
+	else:
+		velocity = 0
+
+	last_pos = global_position
+	
+	$Gfx.rotation_degrees = velocity * 2.0
 	
 	if target == null and targets.size() >= 1:
 		target = targets.pop_front()
@@ -50,8 +63,6 @@ func _physics_process(delta):
 	$SndFlying.pitch_scale= fly_pitch
 	$SndFlying.volume_db= -18+ (fly_pitch-fly_pitch_min)*20
 	
-	
-	
 func add_target(tile):
 	
 	targets.push_back(tile)
@@ -65,6 +76,13 @@ func goto_tile(tile):
 								tile.global_position,
 								(tile.global_position - global_position).length() * speed,
 								Tween.TRANS_QUAD)
+								
+#	$Tween.interpolate_property($Gfx, 
+#								\"rotation_degrees\", 
+#								$Gfx.rotation_degrees, 
+#								20,
+#								0.2,
+#								Tween.TRANS_QUAD)
 
 	$Tween.start()
 	_fly_pitch_ramp(\"up\")
@@ -99,18 +117,20 @@ func do_burn_action():
 	
 func _on_Tween_tween_completed(object, key):
 	
-	var action = target.get_available_action()
-	
-	if action == target.tile_action.PLANT or action == target.tile_action.HARVEST:
-		do_harvest_action()
-	elif action == target.tile_action.WATER:
-		do_water_action()
-	elif action == target.tile_action.BURN:
-		do_burn_action()
-	else:
-		target = null
+	if object == self:
 		
-	_fly_pitch_ramp(\"down\")
+		var action = target.get_available_action()
+		
+		if action == target.tile_action.PLANT or action == target.tile_action.HARVEST:
+			do_harvest_action()
+		elif action == target.tile_action.WATER:
+			do_water_action()
+		elif action == target.tile_action.BURN:
+			do_burn_action()
+		else:
+			target = null
+			
+		_fly_pitch_ramp(\"down\")
 
 func _on_ActionTimer_timeout():
 	
@@ -127,7 +147,7 @@ resource_name = "Fly"
 length = 0.4
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Node2D/drone1:visible")
+tracks/0/path = NodePath("Gfx/drone1:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -139,7 +159,7 @@ tracks/0/keys = {
 "values": [ true, false, true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Node2D/drone2:visible")
+tracks/1/path = NodePath("Gfx/drone2:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -152,11 +172,55 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "Fly_Up_Down"
+resource_name = "Fly_Left"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gfx:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -20.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Fly_Right"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gfx:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 20.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Fly_Still"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gfx:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
 length = 1.3
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("Node2D:position:y")
+tracks/0/path = NodePath("Gfx:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -166,11 +230,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.7, 1.3 )
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Pickup"
+[sub_resource type="Animation" id=7]
 length = 1.1
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("Node2D:position:x")
+tracks/0/path = NodePath("Gfx:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -180,7 +243,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 0.6, 1.1 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("Node2D:position:y")
+tracks/1/path = NodePath("Gfx:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -210,8 +273,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Water"
+[sub_resource type="Animation" id=8]
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -227,50 +289,50 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Fly_Up_Down"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Pickup"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Water"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=12]
 animation = "Fly"
 
-[sub_resource type="AnimationNodeBlend2" id=10]
-
-[sub_resource type="AnimationNodeOneShot" id=11]
-
-[sub_resource type="AnimationNodeTimeScale" id=12]
-
-[sub_resource type="AnimationNodeTimeScale" id=13]
+[sub_resource type="AnimationNodeBlend2" id=13]
 
 [sub_resource type="AnimationNodeOneShot" id=14]
 
-[sub_resource type="AnimationNodeBlendTree" id=15]
-graph_offset = Vector2( -542.6, 128.504 )
-nodes/Animation/node = SubResource( 9 )
+[sub_resource type="AnimationNodeTimeScale" id=15]
+
+[sub_resource type="AnimationNodeTimeScale" id=16]
+
+[sub_resource type="AnimationNodeOneShot" id=17]
+
+[sub_resource type="AnimationNodeBlendTree" id=18]
+graph_offset = Vector2( -200, -17 )
+nodes/Animation/node = SubResource( 12 )
 nodes/Animation/position = Vector2( 140, 20 )
-"nodes/Animation 2/node" = SubResource( 6 )
+"nodes/Animation 2/node" = SubResource( 9 )
 "nodes/Animation 2/position" = Vector2( -280, 80 )
-"nodes/Animation 3/node" = SubResource( 7 )
+"nodes/Animation 3/node" = SubResource( 10 )
 "nodes/Animation 3/position" = Vector2( -240, 480 )
-"nodes/Animation 4/node" = SubResource( 8 )
+"nodes/Animation 4/node" = SubResource( 11 )
 "nodes/Animation 4/position" = Vector2( -460, 280 )
-nodes/Blend2/node = SubResource( 10 )
+nodes/Blend2/node = SubResource( 13 )
 nodes/Blend2/position = Vector2( 440, 100 )
-nodes/DoAction/node = SubResource( 11 )
+nodes/DoAction/node = SubResource( 14 )
 nodes/DoAction/position = Vector2( 200, 280 )
-nodes/TimeScale/node = SubResource( 13 )
+nodes/TimeScale/node = SubResource( 16 )
 nodes/TimeScale/position = Vector2( 0, 440 )
-"nodes/TimeScale 2/node" = SubResource( 12 )
+"nodes/TimeScale 2/node" = SubResource( 15 )
 "nodes/TimeScale 2/position" = Vector2( -220, 260 )
-nodes/Water/node = SubResource( 14 )
+nodes/Water/node = SubResource( 17 )
 nodes/Water/position = Vector2( -20, 180 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "TimeScale 2", 0, "Animation 4", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "TimeScale", 0, "Animation 3", "Blend2", 0, "Animation", "Blend2", 1, "DoAction" ]
+node_connections = [ "output", 0, "Blend2", "TimeScale 2", 0, "Animation 4", "TimeScale", 0, "Animation 3", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "Blend2", 0, "Animation", "Blend2", 1, "DoAction" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
@@ -278,28 +340,31 @@ node_connections = [ "output", 0, "Blend2", "DoAction", 0, "Water", "DoAction", 
 script = SubResource( 1 )
 speed = 0.003
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2( -0.253398, -75.369 )
+[node name="Gfx" type="Node2D" parent="."]
+position = Vector2( -0.253398, -74.0583 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="drone1" type="Sprite" parent="Node2D"]
+[node name="drone1" type="Sprite" parent="Gfx"]
 texture = ExtResource( 1 )
 
-[node name="drone2" type="Sprite" parent="Node2D"]
+[node name="drone2" type="Sprite" parent="Gfx"]
 visible = false
 texture = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Fly"
 anims/Fly = SubResource( 2 )
-anims/Fly_Up_Down = SubResource( 3 )
-anims/Pickup = SubResource( 4 )
-anims/Water = SubResource( 5 )
+anims/Fly_Left = SubResource( 3 )
+anims/Fly_Right = SubResource( 4 )
+anims/Fly_Still = SubResource( 5 )
+anims/Fly_Up_Down = SubResource( 6 )
+anims/Pickup = SubResource( 7 )
+anims/Water = SubResource( 8 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 15 )
+tree_root = SubResource( 18 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/Blend2/blend_amount = 0.5
 parameters/DoAction/active = false
