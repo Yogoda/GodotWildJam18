@@ -75,6 +75,14 @@ func _spawn_swarm():
 	swarm.global_position = spawn.global_position
 	swarms.add_child(swarm)
 	
+func is_raining():
+	
+	return weather == RAIN or weather == ACID_RAIN
+	
+func is_acid_raining():
+	
+	return weather == ACID_RAIN
+	
 func set_weather(new_weather):
 	
 	if new_weather == RAIN or new_weather == ACID_RAIN:

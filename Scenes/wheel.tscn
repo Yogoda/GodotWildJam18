@@ -71,8 +71,7 @@ func _process(delta):
 		if abs(speed) <= 0.02:
 			
 			var r =  int(wheel.rotation_degrees) % 90
-			print(speed)
-			print('babadu')
+
 			if r <= margin or r >= 90 - margin:
 				
 				dir *= -1

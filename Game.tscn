@@ -19,7 +19,6 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 onready var so_rain = $Rain/SoRain01
-var raining = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,30 +29,28 @@ func _ready():
 
 	GameManager.start_game(self)
 	
-func _physics_process(delta):
-	
-	if raining:
-		if not so_rain.playing:
-			match randi() % 3:
-				0: so_rain = $Rain/SoRain01
-				1: so_rain = $Rain/SoRain02
-				2: so_rain = $Rain/SoRain03
-			so_rain.play()
-	else:
-		so_rain.stop()
+#func _physics_process(delta):
+#
+#	if GameManager.is_raining():
+#		if not so_rain.playing:
+#			match randi() % 3:
+#				0: so_rain = $Rain/SoRain01
+#				1: so_rain = $Rain/SoRain02
+#				2: so_rain = $Rain/SoRain03
+#			so_rain.play()
+#	else:
+#		so_rain.stop()
 
 func set_rain():
 	
 	$AnimRain.play(\"rain\")
 	_rain_sound(true)
 	return $AnimRain.get_animation(\"rain\").length
-
 	
 func set_acid_rain():
 	_rain_sound(true)
 	$AnimRain.play(\"acid_rain\")
 	return $AnimRain.get_animation(\"acid_rain\").length
-
 
 func set_sunny():
 	$AnimClouds.play(\"set_sunny\")
@@ -62,11 +59,16 @@ func set_sunny():
 func set_cloudy():
 	$AnimClouds.play(\"set_cloudy\")
 	
+func _rain_sound(enable):
 	
-func _rain_sound(value):
-	raining = value
-	
-	
+	if enable:
+		$Rain/SoRain01.play()
+		$Rain/SoRain02.play()
+		$Rain/SoRain03.play()
+	else:
+		$Rain/SoRain01.stop()
+		$Rain/SoRain02.stop()
+		$Rain/SoRain03.stop()
 
 "
 
@@ -84,7 +86,7 @@ script/source = "extends Sprite
 export var x_speed = 100
 export var y_speed = 100
 
-export var speedup = 1.0
+export var speedup = 3.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -251,9 +253,9 @@ position = Vector2( 915.572, 596.096 )
 z_index = 1
 
 [node name="Sign" type="Sprite" parent="."]
-position = Vector2( 959.5, 523 )
+position = Vector2( 954.193, 534.608 )
 rotation = 0.299848
-scale = Vector2( 0.526042, 0.540816 )
+scale = Vector2( 0.526042, 0.647051 )
 texture = ExtResource( 15 )
 
 [node name="Swarms" type="Node2D" parent="."]
@@ -291,12 +293,12 @@ texture = ExtResource( 8 )
 
 [node name="Rain" type="Sprite" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-scale = Vector2( 0.369525, 0.369301 )
+scale = Vector2( 0.518396, 0.544882 )
 texture = ExtResource( 6 )
 centered = false
 flip_h = true
 region_enabled = true
-region_rect = Rect2( 15, 4, 2780.18, 1613.78 )
+region_rect = Rect2( 15, 4, 1979.74, 1106.17 )
 script = SubResource( 3 )
 x_speed = 289
 y_speed = -468
@@ -316,12 +318,18 @@ speedup = 1.859
 
 [node name="SoRain01" type="AudioStreamPlayer" parent="Rain"]
 stream = ExtResource( 14 )
+volume_db = -5.0
+pitch_scale = 3.0
 
 [node name="SoRain02" type="AudioStreamPlayer" parent="Rain"]
 stream = ExtResource( 12 )
+volume_db = -5.0
+pitch_scale = 3.0
 
 [node name="SoRain03" type="AudioStreamPlayer" parent="Rain"]
 stream = ExtResource( 13 )
+volume_db = -5.0
+pitch_scale = 3.0
 
 [node name="AnimClouds" type="AnimationPlayer" parent="."]
 anims/set_cloudy = SubResource( 4 )
