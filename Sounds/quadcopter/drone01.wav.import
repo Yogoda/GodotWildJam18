@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/drone01.wav-24ed76d5e4649a0502e992cea406739e.sample"
+
+[deps]
+
+source_file="res://Sounds/quadcopter/drone01.wav"
+dest_files=[ "res://.import/drone01.wav-24ed76d5e4649a0502e992cea406739e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

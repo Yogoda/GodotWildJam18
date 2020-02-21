@@ -1,14 +1,21 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Sprite/Drone/drone1.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Drone/drone2.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/water.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sounds/water.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/quadcopter/drone01.wav" type="AudioStream" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 export var speed = 0.01
+
+var fly_pitch_min = 0.5
+var fly_pitch_max = 1.0
+var fly_pitch = 0.5
+export var fly_pitch_acc = 0.05
+var fly_pitch_ramp = \"down\"
 
 var targets = []
 var target
@@ -30,8 +37,20 @@ func _physics_process(delta):
 	
 	if target == null and targets.size() >= 1:
 		target = targets.pop_front()
-		print(\"go to tile\")
+#		print(\"go to tile\")
 		goto_tile(target)
+		
+	#fly sound loop
+	if not $SndFlying.playing:
+		$SndFlying.play()
+	if fly_pitch_ramp == \"up\":
+		fly_pitch = clamp(fly_pitch + fly_pitch_acc, fly_pitch_min, fly_pitch_max)
+	else:
+		fly_pitch = clamp(fly_pitch - fly_pitch_acc, fly_pitch_min, fly_pitch_max)
+	$SndFlying.pitch_scale= fly_pitch
+	$SndFlying.volume_db= -18+ (fly_pitch-fly_pitch_min)*20
+	
+	
 	
 func add_target(tile):
 	
@@ -48,6 +67,7 @@ func goto_tile(tile):
 								Tween.TRANS_QUAD)
 
 	$Tween.start()
+	_fly_pitch_ramp(\"up\")
 	
 func perform_action():
 	
@@ -89,12 +109,17 @@ func _on_Tween_tween_completed(object, key):
 		do_burn_action()
 	else:
 		target = null
+		
+	_fly_pitch_ramp(\"down\")
 
 func _on_ActionTimer_timeout():
 	
 	$WaterLeft.emitting = false
 	$WaterRight.emitting = false
 	target = null
+	
+func _fly_pitch_ramp(value):
+	fly_pitch_ramp = value
 "
 
 [sub_resource type="Animation" id=2]
@@ -171,11 +196,17 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.6 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.1, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
+"args": [ "up" ],
+"method": "_fly_pitch_ramp"
+}, {
 "args": [  ],
 "method": "perform_action"
+}, {
+"args": [ "down" ],
+"method": "_fly_pitch_ramp"
 } ]
 }
 
@@ -239,7 +270,7 @@ nodes/TimeScale/position = Vector2( 0, 440 )
 nodes/Water/node = SubResource( 14 )
 nodes/Water/position = Vector2( -20, 180 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "TimeScale 2", 0, "Animation 4", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale", 0, "Animation 3", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "DoAction", 0, "Water", "DoAction", 1, "TimeScale" ]
+node_connections = [ "output", 0, "Blend2", "TimeScale", 0, "Animation 3", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "TimeScale 2", 0, "Animation 4" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
@@ -296,5 +327,12 @@ one_shot = true
 [node name="SndWater" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -7.174
+
+[node name="SndFlying" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 0.663422, -99.513 )
+stream = ExtResource( 5 )
+volume_db = -18.243
+pitch_scale = 0.5
+autoplay = true
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]
