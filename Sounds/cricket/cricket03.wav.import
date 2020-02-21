@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/cricket03.wav-09f713cc01a8f44c7c3d21321cf3fa5f.sample"
+
+[deps]
+
+source_file="res://Sounds/cricket/cricket03.wav"
+dest_files=[ "res://.import/cricket03.wav-09f713cc01a8f44c7c3d21321cf3fa5f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

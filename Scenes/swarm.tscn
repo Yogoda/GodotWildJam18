@@ -1,10 +1,20 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprite/Swarm/swarm1.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Swarm/swarm2.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/cricket/cricket01.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sounds/cricket/cricket04.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/cricket/cricket02.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sounds/cricket/cricket03.wav" type="AudioStream" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
+
+onready var cricket_sound = $SoCricket01
+
+var sound_delay_min = 1.0
+var sound_delay_max = 2.0
+var sound_delay
 
 var gfx_swarm_1 = preload('res://Sprite/Swarm/swarm1.png')
 var gfx_swarm_2 = preload('res://Sprite/Swarm/swarm2.png')
@@ -16,7 +26,8 @@ const speed = 0.01
 func _ready():
 	
 	target = GameManager.field.get_tile_for_swarm()
-
+	sound_delay = rand_range(sound_delay_min,sound_delay_max)
+	
 	if target != null:
 		goto_tile(target)
 	else:
@@ -38,8 +49,19 @@ func goto_tile(tile):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
-	pass
+	
+	if not cricket_sound.playing:
+		sound_delay -= delta
+		if sound_delay < 0:
+			match randi()%4:
+				0: cricket_sound = $SoCricket01
+				1: cricket_sound = $SoCricket02
+				2: cricket_sound = $SoCricket03
+				3: cricket_sound = $SoCricket04
+				
+			cricket_sound.play()
+			
+			sound_delay = rand_range(sound_delay_min, sound_delay_max)
 
 func _on_Tween_tween_completed(object, key):
 	target.swarm = self
@@ -76,4 +98,24 @@ autoplay = "Fly"
 anims/Fly = SubResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="SoCricket01" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -10.0
+attenuation = 0.420448
+
+[node name="SoCricket02" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = -10.0
+attenuation = 0.0507658
+
+[node name="SoCricket03" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -10.0
+attenuation = 0.0185814
+
+[node name="SoCricket04" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -10.0
+attenuation = 0.420448
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
