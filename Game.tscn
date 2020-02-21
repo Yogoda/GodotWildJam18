@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://rain.anim" type="Animation" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
@@ -11,34 +11,62 @@
 [ext_resource path="res://Sprite/Background/background.png" type="Texture" id=9]
 [ext_resource path="res://Sprite/Background/sun.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/wheel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Sounds/rain/rain02.wav" type="AudioStream" id=12]
+[ext_resource path="res://Sounds/rain/rain03.wav" type="AudioStream" id=13]
+[ext_resource path="res://Sounds/rain/rain01.wav" type="AudioStream" id=14]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
+onready var so_rain = $Rain/SoRain01
+var raining = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
+	
 	$Clouds.visible = false
 	$Fog.visible = false
 	$Rain.visible = false
 
 	GameManager.start_game(self)
+	
+func _physics_process(delta):
+	
+	if raining:
+		if not so_rain.playing:
+			match randi() % 3:
+				0: so_rain = $Rain/SoRain01
+				1: so_rain = $Rain/SoRain02
+				2: so_rain = $Rain/SoRain03
+			so_rain.play()
+	else:
+		so_rain.stop()
 
 func set_rain():
 	
 	$AnimRain.play(\"rain\")
+	_rain_sound(true)
 	return $AnimRain.get_animation(\"rain\").length
+
 	
 func set_acid_rain():
-	
+	_rain_sound(true)
 	$AnimRain.play(\"acid_rain\")
 	return $AnimRain.get_animation(\"acid_rain\").length
 
+
 func set_sunny():
 	$AnimClouds.play(\"set_sunny\")
+	_rain_sound(false)
 	
 func set_cloudy():
 	$AnimClouds.play(\"set_cloudy\")
+	
+	
+func _rain_sound(value):
+	raining = value
+	
+	
+
 "
 
 [sub_resource type="GDScript" id=2]
@@ -277,6 +305,15 @@ script = SubResource( 3 )
 x_speed = 289
 y_speed = -468
 speedup = 1.859
+
+[node name="SoRain01" type="AudioStreamPlayer" parent="Rain"]
+stream = ExtResource( 14 )
+
+[node name="SoRain02" type="AudioStreamPlayer" parent="Rain"]
+stream = ExtResource( 12 )
+
+[node name="SoRain03" type="AudioStreamPlayer" parent="Rain"]
+stream = ExtResource( 13 )
 
 [node name="AnimClouds" type="AnimationPlayer" parent="."]
 anims/set_cloudy = SubResource( 4 )

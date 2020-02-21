@@ -1,6 +1,7 @@
 Sounds:
 cydon: Rocket shoot 002.wav
 n-audioman: drone-take-off-01.wav (https://freesound.org/)
+gynation: rain-on-plastic-roof.wav (https://freesound.org/)
 
 jrssandoval
 https://freesound.org/people/jrssandoval/sounds/67162/
