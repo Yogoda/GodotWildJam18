@@ -25,7 +25,7 @@ var day = 0
 var time_speed = 0.8
 
 var swarm_spawn_counter
-const swarm_spawn_rand = 2
+const swarm_spawn_rand = 5
 
 const swarm_scene = preload("res://Scenes/swarm.tscn")
 
@@ -67,13 +67,19 @@ func _schedule_next_swarm():
 func _spawn_swarm():
 	
 	var spawns = swarms.get_node("Spawns")
-
+	
 	var spawn = spawns.get_child(randi() % spawns.get_child_count())
 	
 	var swarm = swarm_scene.instance()
 	
 	swarm.global_position = spawn.global_position
 	swarms.add_child(swarm)
+	
+func get_swarm_escape():
+	
+	var escape_node = swarms.get_node("Escape")
+	
+	return escape_node.get_child(randi() % escape_node.get_child_count())
 	
 func is_raining():
 	
@@ -110,7 +116,7 @@ func _physics_process(delta):
 	
 	if game_phase == game_phases.GAME_RUNNING:
 		
-		if season != seasons.SPRING:
+		if true: #season != seasons.SPRING:
 			
 			swarm_spawn_counter -= delta
 			if swarm_spawn_counter <= 0:

@@ -23,6 +23,8 @@ onready var so_rain = $Rain/SoRain01
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	randomize()
+	
 	$Clouds.visible = false
 	$Fog.visible = false
 	$Rain.visible = false
@@ -267,20 +269,34 @@ script = SubResource( 2 )
 position = Vector2( 1187.9, 407.965 )
 
 [node name="SwarmSpawn4" type="Position2D" parent="Swarms/Spawns"]
-position = Vector2( 1203.77, 263.577 )
+position = Vector2( 1134.87, 260.927 )
 
 [node name="SwarmSpawn2" type="Position2D" parent="Swarms/Spawns"]
-position = Vector2( 1196.38, 101.259 )
+position = Vector2( 1485.23, 66.8084 )
 
 [node name="SwarmSpawn5" type="Position2D" parent="Swarms/Spawns"]
-position = Vector2( 1109.12, -70.1018 )
+position = Vector2( 1184.1, -47.381 )
 
 [node name="SwarmSpawn6" type="Position2D" parent="Swarms/Spawns"]
-position = Vector2( 915.542, -117.702 )
+position = Vector2( 1050.68, -157.423 )
 rotation = -1.92161
 
 [node name="SwarmSpawn3" type="Position2D" parent="Swarms/Spawns"]
-position = Vector2( 734.979, -114.259 )
+position = Vector2( 1457.48, -58.5909 )
+
+[node name="Escape" type="Node2D" parent="Swarms"]
+
+[node name="SwarmSpawn7" type="Position2D" parent="Swarms/Escape"]
+position = Vector2( -76.2709, 469.804 )
+
+[node name="SwarmSpawn8" type="Position2D" parent="Swarms/Escape"]
+position = Vector2( -596.894, 381.138 )
+
+[node name="SwarmSpawn9" type="Position2D" parent="Swarms/Escape"]
+position = Vector2( -106.045, 304.159 )
+
+[node name="SwarmSpawn10" type="Position2D" parent="Swarms/Escape"]
+position = Vector2( -345.483, 161.929 )
 
 [node name="Drone" parent="." instance=ExtResource( 2 )]
 position = Vector2( 310.499, 514.317 )

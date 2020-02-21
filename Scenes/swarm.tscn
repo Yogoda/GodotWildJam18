@@ -22,33 +22,59 @@ var gfx_swarm_2 = preload('res://Sprite/Swarm/swarm2.png')
 var target
 const speed = 0.01
 
+const eating_max = 3.0
+var eating_counter
+
+var escaping = false
+
+var last_pos
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	target = GameManager.field.get_tile_for_swarm()
+	choose_target()
 	sound_delay = rand_range(sound_delay_min,sound_delay_max)
+		
+func choose_target():
+	
+	target = GameManager.field.get_tile_for_swarm()
 	
 	if target != null:
-		goto_tile(target)
+		target.targetted_by_swarm = self
 	else:
-		queue_free()
-	
-func goto_tile(tile):
-	
-	tile.targetted_by_swarm = self
+		escaping = true
+		target = GameManager.get_swarm_escape()
+		
+	goto_target()
+		
+func goto_target():
 	
 	$Tween.stop_all()
 	$Tween.interpolate_property(self, 
 								\"global_position\", 
 								global_position, 
-								tile.global_position,
-								(tile.global_position - global_position).length() * speed,
+								target.global_position,
+								(target.global_position - global_position).length() * speed,
 								Tween.TRANS_QUAD)
 
 	$Tween.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
+	
+	var velocity
+	
+	if last_pos != null:
+		velocity = global_position.x - last_pos.x
+	else:
+		velocity = 0
+		
+	if velocity > 0:
+		scale.x = -1
+	else:
+		scale.x = 1
+
+	last_pos = global_position
 	
 	if not cricket_sound.playing:
 		sound_delay -= delta
@@ -62,9 +88,32 @@ func _process(delta):
 			cricket_sound.play()
 			
 			sound_delay = rand_range(sound_delay_min, sound_delay_max)
+	
+	if not escaping:
+		if target.swarm == self and eating_counter > 0:
+			eating_counter -= delta
+			
+			if eating_counter <= 0:
+				_finished_eating()
+			
+func _finished_eating():
+	
+	target.destroy()
+	
+	var swarm = GameManager.swarm_scene.instance()
+	
+	swarm.global_position = global_position
+	get_parent().add_child(swarm)
+
+	choose_target()
 
 func _on_Tween_tween_completed(object, key):
-	target.swarm = self
+	
+	if escaping:
+		queue_free()
+	else:
+		target.swarm = self
+		eating_counter = eating_max
 "
 
 [sub_resource type="Animation" id=2]

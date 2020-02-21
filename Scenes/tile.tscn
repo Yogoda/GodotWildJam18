@@ -148,14 +148,13 @@ func _on_Collision_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
-			print(\"clic on tile\")
 			GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_entered():
+	
 	show_selection()
 	
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		print(\"clic on tile\")
 		GameManager.drone.add_target(self)
 
 func _on_Collision_mouse_exited():
@@ -176,7 +175,7 @@ func get_available_action():
 		
 func attracts_swarm():
 
-	if growth_stage > 0 and swarm == null and targetted_by_swarm == null:
+	if growth_stage > 1 and swarm == null and targetted_by_swarm == null:
 		return true
 	else:
 		return false
@@ -191,15 +190,24 @@ func clear_swarm():
 
 func perform_action():
 	
+	#plant
 	if growth_stage == 0:
 		set_growth_stage(1)
+	#harvest
 	elif growth_stage == growth_stage_max:
-		
 		GameManager.silo.add(25)
 		set_growth_stage(0)
+	#water
 	else:
 		wetness = wetness_max
 		_update_sprite()
+
+func destroy():
+	
+	set_growth_stage(0)
+	swarm = null
+	targetted_by_swarm = null
+	_update_sprite()
 "
 
 [sub_resource type="RectangleShape2D" id=2]
