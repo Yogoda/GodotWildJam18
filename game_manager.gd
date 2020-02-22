@@ -25,11 +25,11 @@ var day = 0
 var time_speed = 0.8
 
 var swarm_spawn_counter
-const swarm_spawn_rand = 5
+const swarm_spawn_rand = 4
 
 const wave_counter_min = 10
 const wave_counter_rand = 30
-const wave_duration = 10
+const wave_duration = 15
 
 var wave_counter = 0
 
@@ -131,7 +131,7 @@ func _physics_process(delta):
 	
 	if game_phase == game_phases.GAME_RUNNING:
 		
-		if true: #season != seasons.SPRING:
+		if day >= 35: #season != seasons.SPRING:
 			
 			wave_counter -= delta
 			if wave_counter <= 0:
