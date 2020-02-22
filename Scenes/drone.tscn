@@ -69,7 +69,11 @@ func _physics_process(delta):
 	
 func add_target(tile):
 	
-	targets.push_back(tile)
+	#swarms have priority
+	if tile.swarm != null:
+		targets.push_front(tile)
+	else:
+		targets.push_back(tile)
 	
 func goto_tile(tile):
 	
@@ -416,7 +420,7 @@ script = SubResource( 1 )
 speed = 0.003
 
 [node name="Gfx" type="Node2D" parent="."]
-position = Vector2( -0.253398, -78.8807 )
+position = Vector2( -0.253398, -77.3619 )
 __meta__ = {
 "_edit_group_": true
 }

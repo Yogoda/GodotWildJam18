@@ -25,7 +25,7 @@ var day = 0
 var time_speed = 0.8
 
 var swarm_spawn_counter
-const swarm_spawn_rand = 4
+const swarm_spawn_rand = 5
 
 const wave_counter_min = 10
 const wave_counter_rand = 30
