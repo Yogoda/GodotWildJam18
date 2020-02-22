@@ -140,9 +140,17 @@ func _on_Tween_tween_completed(object, key):
 	if escaping:
 		queue_free()
 	else:
-		target.swarm = self
-		eating_counter = eating_max
-		$AnimationPlayer.play(\"Eat\")
+		
+		if target.growth_stage > 1:
+			target.swarm = self
+			eating_counter = eating_max
+			$AnimationPlayer.play(\"Eat\")
+		#harvested by player
+		else:
+			target.targetted_by_swarm = null
+			target.swarm = null
+			choose_target()
+			$AnimationPlayer.play(\"Fly\")
 "
 
 [sub_resource type="Animation" id=2]

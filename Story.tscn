@@ -107,7 +107,7 @@ margin_bottom = 470.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_disabled = Color( 0.419608, 0.254902, 0, 1 )
 custom_colors/font_color = Color( 0.835294, 0.639216, 0.333333, 1 )
-text = "Thanks, let me do my job."
+text = "Yes, let me do my job."
 
 [node name="corn_stage6" type="Sprite" parent="Control"]
 position = Vector2( 92.753, 524.284 )
