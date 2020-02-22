@@ -9,7 +9,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
-enum tile_action {NONE, PLANT, WATER, HARVEST, BURN}
+enum tile_action {NONE, PLANT, WATER, HARVEST, POISON}
 
 const wetness_max = 400
 const wetness_normal = 100
@@ -162,8 +162,8 @@ func _on_Collision_mouse_exited():
 	
 func get_available_action():
 	
-	if swarm != null:
-		return tile_action.BURN
+	if swarm != null and !swarm.poisoned:
+		return tile_action.POISON
 	elif growth_stage == 0:
 		return tile_action.PLANT
 	elif growth_stage == growth_stage_max:
@@ -180,13 +180,12 @@ func attracts_swarm():
 	else:
 		return false
 		
-func clear_swarm():
+func poison_swarm():
 	
-	if targetted_by_swarm != null:
+	if swarm != null:
 	
-		targetted_by_swarm.queue_free()
-		targetted_by_swarm = null
-		swarm = null
+		swarm.poison()
+#		targetted_by_swarm.queue_free()
 
 func perform_action():
 	

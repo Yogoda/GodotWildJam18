@@ -27,6 +27,12 @@ var time_speed = 0.8
 var swarm_spawn_counter
 const swarm_spawn_rand = 5
 
+const wave_counter_min = 10
+const wave_counter_rand = 30
+const wave_duration = 10
+
+var wave_counter = 0
+
 const swarm_scene = preload("res://Scenes/swarm.tscn")
 
 const rain_duration = 5
@@ -36,17 +42,26 @@ var weather_min = 10
 var weather_max = 60
 var weather_counter = 0
 
-func start_game(game):
+func start_game(game = null):
 	
-	self.game = game
+	if game != null:
+		self.game = game
+
 	game_phase = game_phases.GAME_RUNNING
 	
 	wheel.connect("sig_rain", self, "set_rain")
 	wheel.connect("sig_acid_rain", self, "set_acid_rain")
 	
+	swarm_spawn_counter = 0
+	weather_counter = 0
+	wave_counter = 0
+	day = 0
+	
 	_schedule_next_swarm()
 	
 	set_weather(SUNNY)
+	
+	get_tree().paused = false
 	
 func spin_wheel():
 	
@@ -118,14 +133,21 @@ func _physics_process(delta):
 		
 		if true: #season != seasons.SPRING:
 			
-			swarm_spawn_counter -= delta
-			if swarm_spawn_counter <= 0:
-				_spawn_swarm()
-				_schedule_next_swarm()
+			wave_counter -= delta
+			if wave_counter <= 0:
+				
+				if wave_counter <= -wave_duration:
+					wave_counter = wave_counter_min + randf() * wave_counter_rand
+			
+				swarm_spawn_counter -= delta
+				if swarm_spawn_counter <= 0:
+					_spawn_swarm()
+					_schedule_next_swarm()
 		
 		if silo.level == silo.level_max:
-			print("GOOD JOB!")
+#			print("GOOD JOB!")
 			game_phase = game_phases.GAME_ENDING
+			game.show_victory()
 		
 		day += time_speed * delta
 		
@@ -141,7 +163,8 @@ func _physics_process(delta):
 			season = seasons.SPRING
 
 		if day >= c_winter:
-			print("ITS WINTER, GAME OVER")
+#			print("ITS WINTER, GAME OVER")
+			game.show_defeat()
 			game_phase = game_phases.GAME_ENDING
 
 		weather_counter -= delta

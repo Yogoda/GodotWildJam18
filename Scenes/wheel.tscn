@@ -93,6 +93,7 @@ func _process(delta):
 					emit_signal(\"sig_acid_rain\")
 				else:
 					emit_signal(\"sig_rain\")
+#					emit_signal(\"sig_acid_rain\")
 					
 				$Timer.start()
 		

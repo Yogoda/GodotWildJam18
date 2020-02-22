@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Sprite/Drone/drone1.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Drone/drone2.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/water.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sounds/water.wav" type="AudioStream" id=4]
 [ext_resource path="res://Sounds/quadcopter/drone01.wav" type="AudioStream" id=5]
+[ext_resource path="res://Scenes/poison.tscn" type="PackedScene" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
@@ -34,6 +35,9 @@ func _ready():
 	
 	$WaterLeft.emitting = false
 	$WaterRight.emitting = false
+	
+	$PoisonLeft.emitting = false
+	$PoisonRight.emitting = false
 	
 func _physics_process(delta):
 
@@ -98,22 +102,17 @@ func do_harvest_action():
 	
 func do_water_action():
 	
-	anim_tree.set(\"parameters/Water/active\", true)
-	$WaterLeft.emitting = true
-	$WaterRight.emitting = true
+	anim_tree.set(\"parameters/DoWater/active\", true)
 	$SndWater.play()
 	$ActionTimer.start()
 	
-func do_burn_action():
+func do_poison_action():
 	
-#	anim_tree.set(\"parameters/Water/active\", true)
-#	$WaterLeft.emitting = true
-#	$WaterRight.emitting = true
-#	$SndWater.play()
-	
-	target.clear_swarm()
-	
+	anim_tree.set(\"parameters/DoPoison/active\", true)
+	$SndWater.play()
 	$ActionTimer.start()
+	
+	target.poison_swarm()
 	
 func _on_Tween_tween_completed(object, key):
 	
@@ -125,8 +124,8 @@ func _on_Tween_tween_completed(object, key):
 			do_harvest_action()
 		elif action == target.tile_action.WATER:
 			do_water_action()
-		elif action == target.tile_action.BURN:
-			do_burn_action()
+		elif action == target.tile_action.POISON:
+			do_poison_action()
 		else:
 			target = null
 			
@@ -134,8 +133,6 @@ func _on_Tween_tween_completed(object, key):
 
 func _on_ActionTimer_timeout():
 	
-	$WaterLeft.emitting = false
-	$WaterRight.emitting = false
 	target = null
 	
 func _fly_pitch_ramp(value):
@@ -273,6 +270,47 @@ tracks/2/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=19]
+resource_name = "Poison"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "perform_action"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PoisonLeft:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PoisonRight:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
 [sub_resource type="Animation" id=8]
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
@@ -288,15 +326,36 @@ tracks/0/keys = {
 "method": "perform_action"
 } ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("WaterLeft:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WaterRight:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "Fly_Up_Down"
 
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Pickup"
-
-[sub_resource type="AnimationNodeAnimation" id=11]
-animation = "Water"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "Fly"
@@ -305,34 +364,50 @@ animation = "Fly"
 
 [sub_resource type="AnimationNodeOneShot" id=14]
 
-[sub_resource type="AnimationNodeTimeScale" id=15]
-
-[sub_resource type="AnimationNodeTimeScale" id=16]
+[sub_resource type="AnimationNodeOneShot" id=20]
 
 [sub_resource type="AnimationNodeOneShot" id=17]
 
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "Poison"
+
+[sub_resource type="AnimationNodeTimeScale" id=15]
+
+[sub_resource type="AnimationNodeTimeScale" id=22]
+
+[sub_resource type="AnimationNodeTimeScale" id=16]
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Water"
+
 [sub_resource type="AnimationNodeBlendTree" id=18]
-graph_offset = Vector2( -200, -17 )
+graph_offset = Vector2( -113.75, -68.5 )
 nodes/Animation/node = SubResource( 12 )
 nodes/Animation/position = Vector2( 140, 20 )
 "nodes/Animation 2/node" = SubResource( 9 )
-"nodes/Animation 2/position" = Vector2( -280, 80 )
+"nodes/Animation 2/position" = Vector2( -800, 0 )
 "nodes/Animation 3/node" = SubResource( 10 )
 "nodes/Animation 3/position" = Vector2( -240, 480 )
-"nodes/Animation 4/node" = SubResource( 11 )
-"nodes/Animation 4/position" = Vector2( -460, 280 )
 nodes/Blend2/node = SubResource( 13 )
 nodes/Blend2/position = Vector2( 440, 100 )
 nodes/DoAction/node = SubResource( 14 )
 nodes/DoAction/position = Vector2( 200, 280 )
+nodes/DoPoison/node = SubResource( 20 )
+nodes/DoPoison/position = Vector2( -100, 200 )
+nodes/DoWater/node = SubResource( 17 )
+nodes/DoWater/position = Vector2( -380, 80 )
+nodes/Poison/node = SubResource( 21 )
+nodes/Poison/position = Vector2( -800, 340 )
 nodes/TimeScale/node = SubResource( 16 )
 nodes/TimeScale/position = Vector2( 0, 440 )
 "nodes/TimeScale 2/node" = SubResource( 15 )
-"nodes/TimeScale 2/position" = Vector2( -220, 260 )
-nodes/Water/node = SubResource( 17 )
-nodes/Water/position = Vector2( -20, 180 )
+"nodes/TimeScale 2/position" = Vector2( -600, 200 )
+"nodes/TimeScale 3/node" = SubResource( 22 )
+"nodes/TimeScale 3/position" = Vector2( -600, 340 )
+nodes/Water/node = SubResource( 11 )
+nodes/Water/position = Vector2( -800, 200 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "TimeScale 2", 0, "Animation 4", "DoAction", 0, "Water", "DoAction", 1, "TimeScale", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "Water", 0, "Animation 2", "Water", 1, "TimeScale 2", "TimeScale", 0, "Animation 3" ]
+node_connections = [ "output", 0, "Blend2", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3", "TimeScale 2", 0, "Water", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale 3", 0, "Poison", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
@@ -341,7 +416,7 @@ script = SubResource( 1 )
 speed = 0.003
 
 [node name="Gfx" type="Node2D" parent="."]
-position = Vector2( -0.253398, -74.0583 )
+position = Vector2( -0.253398, -78.8807 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -361,29 +436,48 @@ anims/Fly_Right = SubResource( 4 )
 anims/Fly_Still = SubResource( 5 )
 anims/Fly_Up_Down = SubResource( 6 )
 anims/Pickup = SubResource( 7 )
+anims/Poison = SubResource( 19 )
 anims/Water = SubResource( 8 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 18 )
 anim_player = NodePath("../AnimationPlayer")
+active = true
 parameters/Blend2/blend_amount = 0.5
 parameters/DoAction/active = false
+parameters/DoPoison/active = false
+parameters/DoWater/active = false
 parameters/TimeScale/scale = 1.6
 "parameters/TimeScale 2/scale" = 1.6
-parameters/Water/active = false
+"parameters/TimeScale 3/scale" = 1.6
 
 [node name="Tween" type="Tween" parent="."]
 
+[node name="PoisonLeft" parent="." instance=ExtResource( 6 )]
+position = Vector2( -20.5113, -35.8196 )
+rotation = 0.758125
+scale = Vector2( 1, 1 )
+emitting = false
+gravity = Vector2( 15, 50 )
+
+[node name="PoisonRight" parent="." instance=ExtResource( 6 )]
+position = Vector2( 18.313, -34.798 )
+rotation = 0.758125
+scale = Vector2( 1, 1 )
+emitting = false
+gravity = Vector2( -15, 50 )
+
 [node name="WaterLeft" parent="." instance=ExtResource( 3 )]
+position = Vector2( -20.5113, -35.8196 )
 rotation = 0.758125
 emitting = false
-gravity = Vector2( 0, 50 )
+gravity = Vector2( 15, 50 )
 
 [node name="WaterRight" parent="." instance=ExtResource( 3 )]
-position = Vector2( 18.1355, -39.446 )
+position = Vector2( 20.5194, -34.3376 )
 rotation = -0.750492
 emitting = false
-gravity = Vector2( 0, 98 )
+gravity = Vector2( -15, 50 )
 
 [node name="ActionTimer" type="Timer" parent="."]
 wait_time = 0.688
