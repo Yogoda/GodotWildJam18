@@ -23,6 +23,9 @@ export var music_slider_path:NodePath
 var music_bus = AudioServer.get_bus_index(\"Music\")
 var sounds_bus = AudioServer.get_bus_index(\"Sounds\")
 
+const button_counter_max = 2
+var button_counter = 0
+
 func _ready():
 	
 	menu = get_node(menu_path)
@@ -31,8 +34,22 @@ func _ready():
 	
 	$Menus/Sound.hide()
 	$Menus/Help.hide()
-
+	
+func _physics_process(delta):
+	
+	if button_counter > 0:
+		button_counter -= delta
+		
+		if button_counter <= 0:
+			
+			$Menus/Victory/MarginContainer/VBoxContainer/BtnNext.show()
+			$Menus/Victory/MarginContainer/VBoxContainer/BtnMenu.show()
+			$Menus/Defeat/MarginContainer/VBoxContainer/BtnMenu.show()
+			$Menus/Defeat/MarginContainer/VBoxContainer/BtnNext.show()
+	
 func show_victory():
+	
+	button_counter = button_counter_max
 	
 	$Menus/Victory.show()
 	get_tree().paused = true
@@ -40,6 +57,8 @@ func show_victory():
 	GameManager.game.get_node('Drone').hide()
 	
 func show_defeat():
+	
+	button_counter = button_counter_max
 	
 	GameManager.game.get_node('Snow').emitting = true
 	$Menus/Defeat.show()
@@ -167,6 +186,7 @@ size = 20
 font_data = ExtResource( 5 )
 
 [node name="GUI" type="Control"]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource( 1 )
@@ -227,9 +247,9 @@ __meta__ = {
 
 [node name="Victory" type="PanelContainer" parent="Menus"]
 margin_left = 345.0
-margin_top = 103.0
+margin_top = 148.0
 margin_right = 679.0
-margin_bottom = 497.0
+margin_bottom = 452.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
@@ -238,7 +258,7 @@ __meta__ = {
 
 [node name="MarginContainer" type="MarginContainer" parent="Menus/Victory"]
 margin_right = 334.0
-margin_bottom = 394.0
+margin_bottom = 304.0
 theme = ExtResource( 2 )
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -253,7 +273,7 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 314.0
-margin_bottom = 374.0
+margin_bottom = 284.0
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
@@ -304,6 +324,7 @@ autoplay = "Dance"
 anims/Dance = SubResource( 5 )
 
 [node name="BtnNext" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 268.0
 margin_right = 294.0
 margin_bottom = 309.0
@@ -313,6 +334,7 @@ custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Next Year"
 
 [node name="BtnMenu" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 313.0
 margin_right = 294.0
 margin_bottom = 354.0
@@ -368,6 +390,7 @@ custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
 text = "ITS WINTER, GAME OVER"
 
 [node name="BtnNext" type="Button" parent="Menus/Defeat/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 79.0
 margin_right = 333.0
 margin_bottom = 120.0
@@ -377,6 +400,7 @@ custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Try Again"
 
 [node name="BtnMenu" type="Button" parent="Menus/Defeat/MarginContainer/VBoxContainer"]
+visible = false
 margin_top = 124.0
 margin_right = 333.0
 margin_bottom = 165.0

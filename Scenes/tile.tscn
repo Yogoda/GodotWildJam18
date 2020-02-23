@@ -21,7 +21,7 @@ var wetness
 
 var dry_speed = 0.1
 
-const harvest_amount = 15
+const harvest_amount = 17
 
 var growth_stage = 0
 const growth_stage_max = 6

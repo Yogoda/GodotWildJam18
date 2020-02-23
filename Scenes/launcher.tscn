@@ -188,7 +188,7 @@ nodes/Fire/position = Vector2( 820, 200 )
 nodes/Pressed/node = SubResource( 10 )
 nodes/Pressed/position = Vector2( 560, 160 )
 nodes/output/position = Vector2( 1020, 220 )
-node_connections = [ "output", 0, "Fire", "Fire", 0, "Pressed", "Fire", 1, "Animation 3", "Pressed", 0, "Animation 2", "Pressed", 1, "Animation" ]
+node_connections = [ "output", 0, "Fire", "Pressed", 0, "Animation 2", "Pressed", 1, "Animation", "Fire", 0, "Pressed", "Fire", 1, "Animation 3" ]
 
 [node name="Launcher" type="Node2D"]
 scale = Vector2( 0.410976, 0.410976 )

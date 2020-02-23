@@ -95,11 +95,11 @@ margin_bottom = 437.0
 rect_min_size = Vector2( 0, 437 )
 custom_fonts/normal_font = SubResource( 3 )
 custom_colors/default_color = Color( 0.278431, 0.168627, 0, 1 )
-text = "We are in the year 2037. Due to climate change wrecking havoc on our ecosystems, one of the great plague of history has resurfaced: THE LOCUST SWARM.
+text = "We are in the year 2037. Due to climate change wreaking havoc on our ecosystems, one of the great plagues of history has resurfaced: THE LOCUST SWARM.
 
 They wander the land and devour all vegetation. If we want to survive, we have to protect our crops at all cost. For this task, we developed the Harverstor-3000 drone.
 
-Your job is to pilot the drone and harvest enough grain until winter comes. Will you be up to the task ?"
+Your job is to pilot the drone and harvest enough grain before winter comes. Will you be up to the task?"
 
 [node name="BtnStart" type="Button" parent="Control/PanelContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 441.0

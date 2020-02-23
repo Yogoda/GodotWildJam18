@@ -440,7 +440,7 @@ nodes/TimeScale/position = Vector2( 0, 440 )
 nodes/Water/node = SubResource( 21 )
 nodes/Water/position = Vector2( -800, 200 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "TimeScale 3", 0, "Poison", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale 2", 0, "Water", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2" ]
+node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale", 0, "Animation 3", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale", "TimeScale 2", 0, "Water", "TimeScale 3", 0, "Poison" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
