@@ -39,8 +39,8 @@ func _on_StaticBody2D_input_event(viewport, event, shape_idx):
 				_enable_button(false)
 				$Launch.start()
 				
-				GameManager.game_phase = GameManager.game_phases.GAME_ENDING
-				GameManager.game.show_victory()
+#				GameManager.game_phase = GameManager.game_phases.GAME_ENDING
+#				GameManager.game.show_victory()
 				
 func _on_Launch_timeout():
 	

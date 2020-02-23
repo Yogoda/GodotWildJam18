@@ -216,11 +216,10 @@ region_enabled = true
 region_rect = Rect2( 233, -0.893417, 226, 303.893 )
 
 [node name="Credits" type="PanelContainer" parent="Center"]
-visible = false
-margin_left = 506.0
-margin_top = 296.0
-margin_right = 518.0
-margin_bottom = 304.0
+margin_left = 263.0
+margin_top = 52.0
+margin_right = 761.0
+margin_bottom = 548.0
 script = SubResource( 4 )
 
 [node name="Panel" type="Panel" parent="Center/Credits"]
@@ -276,7 +275,7 @@ __meta__ = {
 }
 
 [node name="bulbigames" type="Sprite" parent="Center/Credits/MarginContainer/VBoxContainer/PanelContainer"]
-position = Vector2( 352.104, 66.8263 )
+position = Vector2( 315.947, 95.0039 )
 scale = Vector2( 0.414258, 0.416667 )
 texture = ExtResource( 3 )
 

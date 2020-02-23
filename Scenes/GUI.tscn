@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://GUI/GUI_theme.tres" type="Theme" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://GUI/Fonts/Noto_Sans/NotoSans-Regular.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Music/Victory.ogg" type="AudioStream" id=6]
 [ext_resource path="res://Music/Defeat.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/button.wav" type="AudioStream" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -42,10 +43,13 @@ func show_defeat():
 	$Defeat.play()
 	
 func show_help():
+	
+	$SndButton.play()
 	$Menus/Help.show()
 
 func show_audio():
 	
+	$SndButton.play()
 	$Menus/Sound.show()
 	
 	get_node(sounds_slider_path).value = AudioServer.get_bus_volume_db(sounds_bus)
@@ -81,6 +85,7 @@ func _on_BtnHelp_pressed():
 
 func _on_BtnDone_pressed():
 	
+	$SndButton.play()
 	$Menus/Sound.hide()
 	$Menus/Help.hide()
 	
@@ -117,6 +122,13 @@ __meta__ = {
 menu_path = NodePath("Menus/Victory/MarginContainer/VBoxContainer")
 sounds_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/SoundSlider")
 music_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/MusicSlider")
+
+[node name="SndButton" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+position = Vector2( 75.8946, 40.0952 )
+stream = ExtResource( 8 )
+volume_db = -10.0
+attenuation = 0.5
 
 [node name="BtnHelp" type="TextureButton" parent="."]
 anchor_left = 1.0
@@ -375,11 +387,10 @@ custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Done"
 
 [node name="Help" type="PanelContainer" parent="Menus"]
-visible = false
-margin_left = 512.0
-margin_top = 300.0
-margin_right = 512.0
-margin_bottom = 300.0
+margin_left = 164.0
+margin_top = 35.0
+margin_right = 859.0
+margin_bottom = 564.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
 
