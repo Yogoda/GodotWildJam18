@@ -15,6 +15,7 @@ const wetness_max = 400
 const wetness_normal = 100
 const wetness_dry = 0
 const rain_hydration_speed = 0.3
+const acid_potency = 0.005
 const rain_hydration = 1
 var wetness
 
@@ -131,12 +132,20 @@ func _update_sprite():
 
 func _physics_process(delta):
 
-	if GameManager.weather == GameManager.RAIN:
+	if GameManager.weather == GameManager.RAIN or GameManager.weather == GameManager.ACID_RAIN:
+
+		#destroy crop
+		if GameManager.weather == GameManager.ACID_RAIN:
+			if growth_stage > 1 and growth_stage < growth_stage_max:
+				if randf() <= acid_potency:
+					set_growth_stage(growth_stage - 1)
 		
-		if wetness < wetness_max and randf() < rain_hydration_speed:
+		if wetness < wetness_max and randf() <= rain_hydration_speed:
+			
 			wetness += rain_hydration
 			clamp(wetness, 0, wetness_max)
 			_update_sprite()
+			
 	else:
 		if wetness > 0:
 			

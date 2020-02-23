@@ -117,10 +117,10 @@ music_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridCont
 [node name="BtnHelp" type="TextureButton" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -136.002
-margin_top = 13.1331
-margin_right = -76.0016
-margin_bottom = 73.1332
+margin_left = -643.566
+margin_top = 8.36917
+margin_right = -583.566
+margin_bottom = 68.3693
 texture_normal = ExtResource( 3 )
 expand = true
 __meta__ = {
@@ -130,10 +130,10 @@ __meta__ = {
 [node name="BtnSound" type="TextureButton" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -72.6234
-margin_top = 13.1331
-margin_right = -12.6234
-margin_bottom = 73.1332
+margin_left = -709.188
+margin_top = 8.36917
+margin_right = -649.188
+margin_bottom = 68.3693
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
@@ -151,6 +151,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 2 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

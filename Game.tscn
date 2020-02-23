@@ -36,10 +36,12 @@ func _ready():
 	$Music.play()
 	
 func show_victory():
+	
 	$Music.stop()
 	$GUI.show_victory()
 	
 func show_defeat():
+	
 	$Music.stop()
 	$GUI.show_defeat()
 
@@ -358,6 +360,18 @@ scale = Vector2( 0.575348, 0.575348 )
 [node name="GUI" parent="." instance=ExtResource( 16 )]
 mouse_filter = 2
 
+[node name="BtnHelp" parent="GUI" index="0"]
+margin_left = -1021.0
+margin_top = 4.0
+margin_right = -973.0
+margin_bottom = 52.0
+
+[node name="BtnSound" parent="GUI" index="1"]
+margin_left = -969.0
+margin_top = 4.0
+margin_right = -921.0
+margin_bottom = 52.0
+
 [node name="AnimClouds" type="AnimationPlayer" parent="."]
 anims/set_cloudy = SubResource( 4 )
 anims/set_sunny = SubResource( 5 )
@@ -371,3 +385,5 @@ pause_mode = 2
 stream = ExtResource( 18 )
 volume_db = -11.2
 bus = "Music"
+
+[editable path="GUI"]

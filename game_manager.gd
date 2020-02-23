@@ -113,6 +113,7 @@ func set_weather(new_weather):
 			
 		if new_weather == RAIN:
 			weather_counter = game.set_rain()
+#			weather_counter = game.set_acid_rain()
 		else:
 			weather_counter = game.set_acid_rain()
 		
