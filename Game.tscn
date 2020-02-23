@@ -36,11 +36,11 @@ func _ready():
 	$Music.play()
 	
 func show_victory():
-	
+	$Music.stop()
 	$GUI.show_victory()
 	
 func show_defeat():
-	
+	$Music.stop()
 	$GUI.show_defeat()
 
 func set_rain():

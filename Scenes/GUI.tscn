@@ -110,7 +110,7 @@ script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-menu_path = NodePath("Menus/Victory")
+menu_path = NodePath("Menus/Victory/MarginContainer/VBoxContainer")
 sounds_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/SoundSlider")
 music_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/MusicSlider")
 
@@ -357,11 +357,13 @@ custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Done"
 
 [node name="Victory" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 6 )
 volume_db = -10.0
 bus = "Music"
 
 [node name="Defeat" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 7 )
 volume_db = -10.0
 [connection signal="pressed" from="BtnHelp" to="." method="_on_BtnHelp_pressed"]
