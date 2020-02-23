@@ -57,7 +57,7 @@ func _physics_process(delta):
 	
 	if target == null and targets.size() >= 1:
 		target = targets.pop_front()
-#		print(\"go to tile\")
+
 		goto_tile(target)
 		
 	#fly sound loop
@@ -78,10 +78,6 @@ func add_target(tile):
 		targets.push_front(tile)
 		update_selection()
 	else:
-		
-#		if target_add_counter <= 0:
-#			targets.clear()
-#			update_selection()
 
 		targets.push_back(tile)
 		tile.update_selection()
@@ -111,6 +107,16 @@ func update_selection():
 		
 	for tile in GameManager.field.tiles:
 		tile.update_selection()
+
+func update_target_selection():
+	
+	target.selected = false
+	
+	for tile in targets:
+		if tile == target:
+			target.selected = true
+			
+	target.update_selection()
 
 func perform_action():
 	
@@ -151,6 +157,7 @@ func _on_Tween_tween_completed(object, key):
 		elif action == target.tile_action.POISON:
 			do_poison_action()
 		else:
+			update_target_selection()
 			target = null
 			
 		_fly_pitch_ramp(\"down\")
@@ -433,7 +440,7 @@ nodes/TimeScale/position = Vector2( 0, 440 )
 nodes/Water/node = SubResource( 21 )
 nodes/Water/position = Vector2( -800, 200 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2", "TimeScale", 0, "Animation 3", "TimeScale 2", 0, "Water", "TimeScale 3", 0, "Poison", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale" ]
+node_connections = [ "output", 0, "Blend2", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "TimeScale 3", 0, "Poison", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale 2", 0, "Water", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
