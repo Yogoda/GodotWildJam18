@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://rain.anim" type="Animation" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Sounds/rain/rain01.wav" type="AudioStream" id=14]
 [ext_resource path="res://Sprite/Sign/sign.png" type="Texture" id=15]
 [ext_resource path="res://Scenes/GUI.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Sprite/Snowflake/snowflake.png" type="Texture" id=17]
 [ext_resource path="res://Music/Machine-Madness_Looping.ogg" type="AudioStream" id=18]
 
 [sub_resource type="GDScript" id=1]
@@ -30,6 +31,7 @@ func _ready():
 	$Clouds.visible = false
 	$Fog.visible = false
 	$Rain.visible = false
+	$Snow.emitting = false
 
 	GameManager.start_game(self)
 	
@@ -352,6 +354,21 @@ volume_db = -5.0
 pitch_scale = 3.0
 bus = "Sounds"
 
+[node name="Snow" type="CPUParticles2D" parent="."]
+pause_mode = 2
+position = Vector2( 509.905, -25.5651 )
+emitting = false
+amount = 400
+lifetime = 4.0
+preprocess = 1.0
+speed_scale = 0.52
+texture = ExtResource( 17 )
+emission_shape = 2
+emission_rect_extents = Vector2( 550, 1 )
+initial_velocity_random = 0.19
+scale_amount = 0.1
+scale_amount_random = 0.1
+
 [node name="Wheel" parent="." instance=ExtResource( 11 )]
 visible = false
 position = Vector2( 907.654, 113.851 )
@@ -360,17 +377,21 @@ scale = Vector2( 0.575348, 0.575348 )
 [node name="GUI" parent="." instance=ExtResource( 16 )]
 mouse_filter = 2
 
-[node name="BtnHelp" parent="GUI" index="0"]
+[node name="BtnHelp" parent="GUI" index="1"]
 margin_left = -1021.0
 margin_top = 4.0
 margin_right = -973.0
 margin_bottom = 52.0
 
-[node name="BtnSound" parent="GUI" index="1"]
+[node name="BtnSound" parent="GUI" index="2"]
 margin_left = -969.0
 margin_top = 4.0
 margin_right = -921.0
 margin_bottom = 52.0
+
+[node name="Sprite" parent="GUI/Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone" index="0"]
+position = Vector2( 69.364, 61.5808 )
+rotation = -0.664237
 
 [node name="AnimClouds" type="AnimationPlayer" parent="."]
 anims/set_cloudy = SubResource( 4 )

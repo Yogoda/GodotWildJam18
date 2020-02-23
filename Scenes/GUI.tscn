@@ -37,9 +37,11 @@ func show_victory():
 	$Menus/Victory.show()
 	get_tree().paused = true
 	$Victory.play()
+	GameManager.game.get_node('Drone').hide()
 	
 func show_defeat():
 	
+	GameManager.game.get_node('Snow').emitting = true
 	$Menus/Defeat.show()
 	get_tree().paused = true
 	$Defeat.play()
@@ -139,8 +141,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.225, 0.311959, 0.45, 0.675, 0.9 ),
-"transitions": PoolRealArray( 2.21914, 1, 1, 1, 1, 0.466517 ),
+"times": PoolRealArray( 0, 0.225, 0.311959, 0.45, 0.675, 0.91 ),
+"transitions": PoolRealArray( 1.1487, 1, 1, 1, 1, 1.07177 ),
 "update": 0,
 "values": [ Vector2( 69.364, 61.5808 ), Vector2( 142.138, 120.388 ), Vector2( 172.253, 98.8912 ), Vector2( 220.058, 64.7662 ), Vector2( 142.138, 120.388 ), Vector2( 69.364, 61.5808 ) ]
 }
@@ -152,7 +154,7 @@ tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 0.225, 0.45, 0.675, 0.9 ),
-"transitions": PoolRealArray( 1.8025, 1, 1, 1, 0.482968 ),
+"transitions": PoolRealArray( 0.90125, 1, 1, 1, 1.03526 ),
 "update": 0,
 "values": [ -38.058, -0.586129, 35.0495, -0.586129, -38.058 ]
 }
@@ -180,7 +182,6 @@ music_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridCont
 pause_mode = 2
 position = Vector2( 75.8946, 40.0952 )
 stream = ExtResource( 8 )
-volume_db = -10.0
 attenuation = 0.5
 
 [node name="BtnHelp" type="TextureButton" parent="."]
@@ -290,8 +291,8 @@ __meta__ = {
 [node name="DancingDrone" type="Node2D" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer"]
 
 [node name="Sprite" type="Sprite" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone"]
-position = Vector2( 69.364, 61.5808 )
-rotation = -0.664238
+position = Vector2( 197.966, 80.5362 )
+rotation = 0.435391
 texture = ExtResource( 9 )
 
 [node name="Fly" type="AnimationPlayer" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone"]
