@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://gui_theme.tres" type="Theme" id=2]
@@ -11,11 +11,6 @@ script/source = "extends CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func _on_BtnExit_pressed():
 	get_tree().quit()
@@ -34,6 +29,23 @@ func _on_BtnStory_pressed():
 [sub_resource type="StreamTexture" id=2]
 flags = 4
 load_path = "res://.import/wild_jam.png-77995630922682bc1c2487424c644378.stex"
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends CenterContainer
+
+func _ready():
+	$Credits.hide()
+
+func _on_BtnCredits_pressed():
+	$Credits.show()
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends PanelContainer
+
+func _on_Close_pressed():
+	hide()
+"
 
 [node name="Menu" type="CanvasLayer"]
 script = SubResource( 1 )
@@ -72,7 +84,12 @@ region_rect = Rect2( 48, 39, 251, 355 )
 [node name="Center" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -0.104523
+margin_top = 2.67372
+margin_right = -0.104492
+margin_bottom = 2.67371
 theme = ExtResource( 2 )
+script = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -174,22 +191,112 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="wildcards3" type="Sprite" parent="."]
-position = Vector2( 783.34, 454 )
+[node name="wildcards3" type="Sprite" parent="Center"]
+position = Vector2( 783.445, 451.326 )
 rotation = 0.785397
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )
 region_enabled = true
 region_rect = Rect2( 2, -3, 223, 305 )
 
-[node name="wildcards2" type="Sprite" parent="."]
-position = Vector2( 674.01, 403.475 )
+[node name="wildcards2" type="Sprite" parent="Center"]
+position = Vector2( 674.115, 400.801 )
 rotation = 0.261799
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )
 region_enabled = true
 region_rect = Rect2( 233, -0.893417, 226, 303.893 )
+
+[node name="Credits" type="PanelContainer" parent="Center"]
+visible = false
+margin_left = 506.0
+margin_top = 296.0
+margin_right = 518.0
+margin_bottom = 304.0
+script = SubResource( 3 )
+
+[node name="Panel" type="Panel" parent="Center/Credits"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 492.0
+margin_bottom = 356.0
+rect_min_size = Vector2( 170, 200 )
+theme = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Center/Credits"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 492.0
+margin_bottom = 356.0
+custom_constants/margin_right = 16
+custom_constants/margin_top = 16
+custom_constants/margin_left = 16
+custom_constants/margin_bottom = 16
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Center/Credits/MarginContainer"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 470.0
+margin_bottom = 336.0
+rect_min_size = Vector2( 100, 100 )
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Center/Credits/MarginContainer/VBoxContainer"]
+margin_right = 454.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 0, 56 )
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+text = "CREDITS"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="Center/Credits/MarginContainer/VBoxContainer"]
+margin_top = 60.0
+margin_right = 454.0
+margin_bottom = 294.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Center/Credits/MarginContainer/VBoxContainer/PanelContainer"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 448.0
+margin_bottom = 230.0
+text = "Music by Eric Matyas
+\"Machine-Madness\"
+www.soundimage.org
+
+Sounds:
+cydon: Rocket shoot 002.wav
+n-audioman: drone-take-off-01.wav (https://freesound.org/)
+gynation: rain-on-plastic-roof.wav (https://freesound.org/)
+rtb45: mount-moganshan-insect-chorus.wav (https://freesound.org/)
+jrssandoval: shower.wav (https://freesound.org/)
+
+Tester:
+Rakshir"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Close" type="Button" parent="Center/Credits/MarginContainer/VBoxContainer"]
+margin_top = 298.0
+margin_right = 454.0
+margin_bottom = 320.0
+text = "CLOSE"
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnStart" to="." method="_on_BtnStart_pressed"]
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnStory" to="." method="_on_BtnStory_pressed"]
+[connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnCredits" to="Center" method="_on_BtnCredits_pressed"]
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnExit" to="." method="_on_BtnExit_pressed"]
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/LinkButton" to="." method="_on_LinkButton_pressed"]
+[connection signal="pressed" from="Center/Credits/MarginContainer/VBoxContainer/Close" to="Center/Credits" method="_on_Close_pressed"]

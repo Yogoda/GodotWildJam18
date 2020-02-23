@@ -24,22 +24,20 @@ func _ready():
 	
 	menu = get_node(menu_path)
 	$Menus/Victory.hide()
+	$Menus/Defeat.hide()
+	
 	$Menus/Sound.hide()
 	$Menus/Help.hide()
 
 func show_victory():
 	
-	menu.get_node('Label').text = 'GOOD JOB!'
-	menu.get_node('BtnNext').text = 'Next'
 	$Menus/Victory.show()
 	get_tree().paused = true
 	$Victory.play()
 	
 func show_defeat():
 	
-	menu.get_node('Label').text = 'ITS WINTER, GAME OVER'
-	menu.get_node('BtnNext').text = 'Try Again'
-	$Menus/Victory.show()
+	$Menus/Defeat.show()
 	get_tree().paused = true
 	$Defeat.play()
 	
@@ -90,7 +88,13 @@ func _on_BtnDone_pressed():
 
 func _on_BtnNext_pressed():
 	
+	get_tree().paused = false
 	get_tree().change_scene(\"res://Game.tscn\")
+
+func _on_BtnMenu_pressed():
+	
+	get_tree().paused = false
+	get_tree().change_scene(\"res://Menu/Menu.tscn\")
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
@@ -156,17 +160,16 @@ __meta__ = {
 }
 
 [node name="Victory" type="PanelContainer" parent="Menus"]
-visible = false
-margin_left = 512.0
-margin_top = 300.0
-margin_right = 512.0
-margin_bottom = 300.0
+margin_left = 345.0
+margin_top = 197.0
+margin_right = 679.0
+margin_bottom = 402.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Menus/Victory"]
-margin_right = 146.0
-margin_bottom = 120.0
+margin_right = 334.0
+margin_bottom = 205.0
 theme = ExtResource( 2 )
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -179,26 +182,109 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="Menus/Victory/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 126.0
-margin_bottom = 100.0
+margin_right = 314.0
+margin_bottom = 185.0
 theme = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="Menus/Victory/MarginContainer/VBoxContainer"]
-margin_right = 106.0
-margin_bottom = 35.0
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+margin_right = 294.0
+margin_bottom = 75.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="Menus/Victory/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 274.0
+margin_bottom = 55.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
-text = "SUCCESS"
+text = "VICTORY, GREAT JOB!"
+align = 1
 
 [node name="BtnNext" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
-margin_top = 39.0
-margin_right = 106.0
-margin_bottom = 80.0
+margin_top = 79.0
+margin_right = 294.0
+margin_bottom = 120.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
-text = "Next"
+text = "Next Year"
+
+[node name="BtnMenu" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+margin_top = 124.0
+margin_right = 294.0
+margin_bottom = 165.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Menu"
+
+[node name="Defeat" type="PanelContainer" parent="Menus"]
+margin_left = 325.0
+margin_top = 197.0
+margin_right = 698.0
+margin_bottom = 402.0
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Defeat"]
+margin_right = 373.0
+margin_bottom = 205.0
+theme = ExtResource( 2 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Defeat/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 353.0
+margin_bottom = 185.0
+theme = ExtResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Defeat/MarginContainer/VBoxContainer"]
+margin_right = 333.0
+margin_bottom = 75.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="Menus/Defeat/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 313.0
+margin_bottom = 55.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "ITS WINTER, GAME OVER"
+
+[node name="BtnNext" type="Button" parent="Menus/Defeat/MarginContainer/VBoxContainer"]
+margin_top = 79.0
+margin_right = 333.0
+margin_bottom = 120.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Try Again"
+
+[node name="BtnMenu" type="Button" parent="Menus/Defeat/MarginContainer/VBoxContainer"]
+margin_top = 124.0
+margin_right = 333.0
+margin_bottom = 165.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Menu"
 
 [node name="Sound" type="PanelContainer" parent="Menus"]
 visible = false
@@ -370,6 +456,9 @@ volume_db = -10.0
 [connection signal="pressed" from="BtnHelp" to="." method="_on_BtnHelp_pressed"]
 [connection signal="pressed" from="BtnSound" to="." method="_on_BtnSound_pressed"]
 [connection signal="pressed" from="Menus/Victory/MarginContainer/VBoxContainer/BtnNext" to="." method="_on_BtnNext_pressed"]
+[connection signal="pressed" from="Menus/Victory/MarginContainer/VBoxContainer/BtnMenu" to="." method="_on_BtnMenu_pressed"]
+[connection signal="pressed" from="Menus/Defeat/MarginContainer/VBoxContainer/BtnNext" to="." method="_on_BtnNext_pressed"]
+[connection signal="pressed" from="Menus/Defeat/MarginContainer/VBoxContainer/BtnMenu" to="." method="_on_BtnMenu_pressed"]
 [connection signal="value_changed" from="Menus/Sound/MarginContainer/VBoxContainer/GridContainer/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="Menus/Sound/MarginContainer/VBoxContainer/GridContainer/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="pressed" from="Menus/Sound/MarginContainer/VBoxContainer/BtnDone" to="." method="_on_BtnDone_pressed"]
