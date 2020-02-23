@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Machine-Madness_Looping.ogg-1882eca735df6bb474a17338d7cd553f.oggstr"
+
+[deps]
+
+source_file="res://Music/Machine-Madness_Looping.ogg"
+dest_files=[ "res://.import/Machine-Madness_Looping.ogg-1882eca735df6bb474a17338d7cd553f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

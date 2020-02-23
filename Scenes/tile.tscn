@@ -51,7 +51,7 @@ func _ready():
 
 	wetness = wetness_normal
 	
-	set_growth_stage(6)
+	set_growth_stage(0)
 	
 #	set_growth_stage(randi() % growth_stage_max)
 #	growth_counter = randi() % growth_rand

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://rain.anim" type="Animation" id=1]
 [ext_resource path="res://Scenes/drone.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Sprite/Sign/sign.png" type="Texture" id=15]
 [ext_resource path="res://GUI/GUI_theme.tres" type="Theme" id=16]
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=17]
+[ext_resource path="res://Music/Machine-Madness_Looping.ogg" type="AudioStream" id=18]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
@@ -32,6 +33,8 @@ func _ready():
 	$Rain.visible = false
 
 	GameManager.start_game(self)
+	
+	$Music.play()
 	
 func show_victory():
 	
@@ -228,7 +231,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 0.0784314, 1, 0, 0.772549 ), Color( 0.0784314, 1, 0, 0.772549 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=7]
 script/source = "extends CenterContainer
 
 export var menu_path:NodePath
@@ -258,7 +261,7 @@ func _on_BtnNext_pressed():
 	get_tree().change_scene(\"res://Game.tscn\")
 "
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.780392, 0.564706, 0.227451, 1 )
 
 [node name="Game" type="CanvasLayer"]
@@ -396,7 +399,7 @@ pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 16 )
-script = SubResource( 8 )
+script = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -408,7 +411,7 @@ margin_top = 240.0
 margin_right = 585.0
 margin_bottom = 360.0
 theme = ExtResource( 16 )
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 8 )
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/PanelContainer"]
 margin_right = 146.0
@@ -445,4 +448,8 @@ theme = ExtResource( 16 )
 custom_fonts/font = ExtResource( 17 )
 custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Next"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+volume_db = -11.2
 [connection signal="pressed" from="GUI/PanelContainer/MarginContainer/VBoxContainer/BtnNext" to="GUI" method="_on_BtnNext_pressed"]
