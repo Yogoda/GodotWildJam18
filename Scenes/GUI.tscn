@@ -1,0 +1,373 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://GUI/GUI_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Sprite/Button/button_help.png" type="Texture" id=3]
+[ext_resource path="res://Sprite/Button/button_sound.png" type="Texture" id=4]
+[ext_resource path="res://GUI/Fonts/Noto_Sans/NotoSans-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Music/Victory.ogg" type="AudioStream" id=6]
+[ext_resource path="res://Music/Defeat.ogg" type="AudioStream" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+export var menu_path:NodePath
+var menu
+
+export var sounds_slider_path:NodePath
+export var music_slider_path:NodePath
+
+var music_bus = AudioServer.get_bus_index(\"Music\")
+var sounds_bus = AudioServer.get_bus_index(\"Sounds\")
+
+func _ready():
+	
+	menu = get_node(menu_path)
+	$Menus/Victory.hide()
+	$Menus/Sound.hide()
+	$Menus/Help.hide()
+
+func show_victory():
+	
+	menu.get_node('Label').text = 'GOOD JOB!'
+	menu.get_node('BtnNext').text = 'Next'
+	$Menus/Victory.show()
+	get_tree().paused = true
+	$Victory.play()
+	
+func show_defeat():
+	
+	menu.get_node('Label').text = 'ITS WINTER, GAME OVER'
+	menu.get_node('BtnNext').text = 'Try Again'
+	$Menus/Victory.show()
+	get_tree().paused = true
+	$Defeat.play()
+	
+func show_help():
+	$Menus/Help.show()
+
+func show_audio():
+	
+	$Menus/Sound.show()
+	
+	get_node(sounds_slider_path).value = AudioServer.get_bus_volume_db(sounds_bus)
+	get_node(music_slider_path).value = AudioServer.get_bus_volume_db(music_bus)
+	
+func _on_MusicSlider_value_changed(value):
+	
+	AudioServer.set_bus_volume_db(music_bus, value)
+	
+	if value == -21:
+		AudioServer.set_bus_mute(music_bus, true)
+	else:
+		AudioServer.set_bus_mute(music_bus, false)
+
+func _on_SoundSlider_value_changed(value):
+	
+	AudioServer.set_bus_volume_db(sounds_bus, value)
+	
+	if value == -21:
+		AudioServer.set_bus_mute(sounds_bus, true)
+	else:
+		AudioServer.set_bus_mute(sounds_bus, false)
+		
+func _on_BtnSound_pressed():
+	
+	get_tree().paused = true
+	show_audio()
+
+func _on_BtnHelp_pressed():
+	
+	get_tree().paused = true
+	show_help()
+
+func _on_BtnDone_pressed():
+	
+	$Menus/Sound.hide()
+	$Menus/Help.hide()
+	
+	get_tree().paused = false
+
+func _on_BtnNext_pressed():
+	
+	get_tree().change_scene(\"res://Game.tscn\")
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.780392, 0.564706, 0.227451, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.278431, 0.168627, 0, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = ExtResource( 5 )
+
+[node name="GUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+menu_path = NodePath("Menus/Victory")
+sounds_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/SoundSlider")
+music_slider_path = NodePath("Menus/Sound/MarginContainer/VBoxContainer/GridContainer/MusicSlider")
+
+[node name="BtnHelp" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -136.002
+margin_top = 13.1331
+margin_right = -76.0016
+margin_bottom = 73.1332
+texture_normal = ExtResource( 3 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BtnSound" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -72.6234
+margin_top = 13.1331
+margin_right = -12.6234
+margin_bottom = 73.1332
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 4 )
+texture_focused = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menus" type="CenterContainer" parent="."]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Victory" type="PanelContainer" parent="Menus"]
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 512.0
+margin_bottom = 300.0
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Victory"]
+margin_right = 146.0
+margin_bottom = 120.0
+theme = ExtResource( 2 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Victory/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 126.0
+margin_bottom = 100.0
+theme = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+margin_right = 106.0
+margin_bottom = 35.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "SUCCESS"
+
+[node name="BtnNext" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 106.0
+margin_bottom = 80.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Next"
+
+[node name="Sound" type="PanelContainer" parent="Menus"]
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 512.0
+margin_bottom = 300.0
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Sound"]
+margin_right = 330.0
+margin_bottom = 200.0
+theme = ExtResource( 2 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Sound/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 310.0
+margin_bottom = 180.0
+theme = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="Menus/Sound/MarginContainer/VBoxContainer"]
+margin_right = 290.0
+margin_bottom = 35.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "Volume"
+
+[node name="GridContainer" type="GridContainer" parent="Menus/Sound/MarginContainer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 290.0
+margin_bottom = 115.0
+custom_constants/hseparation = 15
+columns = 2
+
+[node name="Music" type="Label" parent="Menus/Sound/MarginContainer/VBoxContainer/GridContainer"]
+margin_right = 74.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="Menus/Sound/MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 89.0
+margin_right = 290.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 201, 36 )
+min_value = -21.0
+max_value = 6.0
+tick_count = 12
+ticks_on_borders = true
+
+[node name="Sound" type="Label" parent="Menus/Sound/MarginContainer/VBoxContainer/GridContainer"]
+margin_top = 40.0
+margin_right = 74.0
+margin_bottom = 75.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "Sound"
+
+[node name="SoundSlider" type="HSlider" parent="Menus/Sound/MarginContainer/VBoxContainer/GridContainer"]
+margin_left = 89.0
+margin_top = 40.0
+margin_right = 290.0
+margin_bottom = 76.0
+rect_min_size = Vector2( 201, 36 )
+min_value = -21.0
+max_value = 6.0
+tick_count = 12
+ticks_on_borders = true
+
+[node name="BtnDone" type="Button" parent="Menus/Sound/MarginContainer/VBoxContainer"]
+margin_top = 119.0
+margin_right = 290.0
+margin_bottom = 160.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Done"
+
+[node name="Help" type="PanelContainer" parent="Menus"]
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 512.0
+margin_bottom = 300.0
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 2 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Menus/Help"]
+margin_right = 695.0
+margin_bottom = 529.0
+theme = ExtResource( 2 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menus/Help/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 675.0
+margin_bottom = 509.0
+theme = ExtResource( 2 )
+
+[node name="Help" type="Label" parent="Menus/Help/MarginContainer/VBoxContainer"]
+margin_right = 655.0
+margin_bottom = 35.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "Help"
+
+[node name="Panel" type="Panel" parent="Menus/Help/MarginContainer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 655.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 1 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Descr" type="Label" parent="Menus/Help/MarginContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 655.0
+margin_bottom = 444.0
+rect_min_size = Vector2( 655, 0 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
+text = "Your goal is to fill the silo with grain before winter comes.
+
+Click on the tiles to ask the drone to plant seeds, water and harvest. You may stack several actions and drag your mouse to select multiple tiles. When locusts come, spray them with insecticide before they can eat and reproduce.
+
+The soil will gradually dry. Crop doesn't grow on dry land and twice as fast when well hydrated, so water regularly! You can launch a weather rocket to make it rain, but there is a chance to get an acid rain instead, that will damage your crop and kill locusts.
+
+Good luck!"
+align = 3
+autowrap = true
+
+[node name="BtnDone" type="Button" parent="Menus/Help/MarginContainer/VBoxContainer"]
+margin_top = 448.0
+margin_right = 655.0
+margin_bottom = 489.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
+text = "Done"
+
+[node name="Victory" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -10.0
+bus = "Music"
+
+[node name="Defeat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -10.0
+[connection signal="pressed" from="BtnHelp" to="." method="_on_BtnHelp_pressed"]
+[connection signal="pressed" from="BtnSound" to="." method="_on_BtnSound_pressed"]
+[connection signal="pressed" from="Menus/Victory/MarginContainer/VBoxContainer/BtnNext" to="." method="_on_BtnNext_pressed"]
+[connection signal="value_changed" from="Menus/Sound/MarginContainer/VBoxContainer/GridContainer/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="value_changed" from="Menus/Sound/MarginContainer/VBoxContainer/GridContainer/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
+[connection signal="pressed" from="Menus/Sound/MarginContainer/VBoxContainer/BtnDone" to="." method="_on_BtnDone_pressed"]
+[connection signal="pressed" from="Menus/Help/MarginContainer/VBoxContainer/BtnDone" to="." method="_on_BtnDone_pressed"]

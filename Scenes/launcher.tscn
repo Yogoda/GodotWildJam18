@@ -238,15 +238,18 @@ parameters/Pressed/blend_amount = 0.0
 
 [node name="Clic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+bus = "Sounds"
 
 [node name="SndButtonRelease" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )
 volume_db = -2.69
+bus = "Sounds"
 
 [node name="SndRocket" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -17.572
 pitch_scale = 0.9
+bus = "Sounds"
 
 [node name="Launch" type="Timer" parent="."]
 wait_time = 0.3

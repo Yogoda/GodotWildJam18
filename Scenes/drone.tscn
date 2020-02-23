@@ -296,7 +296,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=8]
 resource_name = "Poison"
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
@@ -337,7 +337,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -377,10 +377,10 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Fly_Up_Down"
 
-[sub_resource type="AnimationNodeAnimation" id=10]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Pickup"
 
 [sub_resource type="AnimationNodeAnimation" id=12]
@@ -390,50 +390,50 @@ animation = "Fly"
 
 [sub_resource type="AnimationNodeOneShot" id=14]
 
-[sub_resource type="AnimationNodeOneShot" id=20]
+[sub_resource type="AnimationNodeOneShot" id=15]
 
-[sub_resource type="AnimationNodeOneShot" id=17]
+[sub_resource type="AnimationNodeOneShot" id=16]
 
-[sub_resource type="AnimationNodeAnimation" id=21]
+[sub_resource type="AnimationNodeAnimation" id=17]
 animation = "Poison"
 
-[sub_resource type="AnimationNodeTimeScale" id=15]
+[sub_resource type="AnimationNodeTimeScale" id=18]
 
-[sub_resource type="AnimationNodeTimeScale" id=22]
+[sub_resource type="AnimationNodeTimeScale" id=19]
 
-[sub_resource type="AnimationNodeTimeScale" id=16]
+[sub_resource type="AnimationNodeTimeScale" id=20]
 
-[sub_resource type="AnimationNodeAnimation" id=11]
+[sub_resource type="AnimationNodeAnimation" id=21]
 animation = "Water"
 
-[sub_resource type="AnimationNodeBlendTree" id=18]
+[sub_resource type="AnimationNodeBlendTree" id=22]
 graph_offset = Vector2( -113.75, -68.5 )
 nodes/Animation/node = SubResource( 12 )
 nodes/Animation/position = Vector2( 140, 20 )
-"nodes/Animation 2/node" = SubResource( 9 )
+"nodes/Animation 2/node" = SubResource( 10 )
 "nodes/Animation 2/position" = Vector2( -800, 0 )
-"nodes/Animation 3/node" = SubResource( 10 )
+"nodes/Animation 3/node" = SubResource( 11 )
 "nodes/Animation 3/position" = Vector2( -240, 480 )
 nodes/Blend2/node = SubResource( 13 )
 nodes/Blend2/position = Vector2( 440, 100 )
 nodes/DoAction/node = SubResource( 14 )
 nodes/DoAction/position = Vector2( 200, 280 )
-nodes/DoPoison/node = SubResource( 20 )
+nodes/DoPoison/node = SubResource( 15 )
 nodes/DoPoison/position = Vector2( -100, 200 )
-nodes/DoWater/node = SubResource( 17 )
+nodes/DoWater/node = SubResource( 16 )
 nodes/DoWater/position = Vector2( -380, 80 )
-nodes/Poison/node = SubResource( 21 )
+nodes/Poison/node = SubResource( 17 )
 nodes/Poison/position = Vector2( -800, 340 )
-nodes/TimeScale/node = SubResource( 16 )
+nodes/TimeScale/node = SubResource( 20 )
 nodes/TimeScale/position = Vector2( 0, 440 )
-"nodes/TimeScale 2/node" = SubResource( 15 )
+"nodes/TimeScale 2/node" = SubResource( 18 )
 "nodes/TimeScale 2/position" = Vector2( -600, 200 )
-"nodes/TimeScale 3/node" = SubResource( 22 )
+"nodes/TimeScale 3/node" = SubResource( 19 )
 "nodes/TimeScale 3/position" = Vector2( -600, 340 )
-nodes/Water/node = SubResource( 11 )
+nodes/Water/node = SubResource( 21 )
 nodes/Water/position = Vector2( -800, 200 )
 nodes/output/position = Vector2( 740, 200 )
-node_connections = [ "output", 0, "Blend2", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale", "TimeScale", 0, "Animation 3", "TimeScale 2", 0, "Water", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "TimeScale 3", 0, "Poison", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2" ]
+node_connections = [ "output", 0, "Blend2", "Blend2", 0, "Animation", "Blend2", 1, "DoAction", "DoPoison", 0, "DoWater", "DoPoison", 1, "TimeScale 3", "DoWater", 0, "Animation 2", "DoWater", 1, "TimeScale 2", "TimeScale", 0, "Animation 3", "TimeScale 2", 0, "Water", "TimeScale 3", 0, "Poison", "DoAction", 0, "DoPoison", "DoAction", 1, "TimeScale" ]
 
 [node name="Drone" type="Node2D" groups=[
 "Drone",
@@ -462,11 +462,11 @@ anims/Fly_Right = SubResource( 4 )
 anims/Fly_Still = SubResource( 5 )
 anims/Fly_Up_Down = SubResource( 6 )
 anims/Pickup = SubResource( 7 )
-anims/Poison = SubResource( 19 )
-anims/Water = SubResource( 8 )
+anims/Poison = SubResource( 8 )
+anims/Water = SubResource( 9 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 18 )
+tree_root = SubResource( 22 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/Blend2/blend_amount = 0.5
 parameters/DoAction/active = false
@@ -481,13 +481,11 @@ parameters/TimeScale/scale = 1.6
 [node name="PoisonLeft" parent="." instance=ExtResource( 6 )]
 position = Vector2( -20.5113, -35.8196 )
 rotation = 0.758125
-scale = Vector2( 1, 1 )
 gravity = Vector2( 15, 50 )
 
 [node name="PoisonRight" parent="." instance=ExtResource( 6 )]
 position = Vector2( 18.313, -34.798 )
 rotation = 0.758125
-scale = Vector2( 1, 1 )
 gravity = Vector2( -15, 50 )
 
 [node name="WaterLeft" parent="." instance=ExtResource( 3 )]
@@ -509,6 +507,7 @@ one_shot = true
 [node name="SndWater" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -7.174
+bus = "Sounds"
 
 [node name="SndFlying" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( 0.663422, -99.513 )
@@ -516,5 +515,6 @@ stream = ExtResource( 5 )
 volume_db = -18.243
 pitch_scale = 0.5
 autoplay = true
+bus = "Sounds"
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="ActionTimer" to="." method="_on_ActionTimer_timeout"]
