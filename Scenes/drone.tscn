@@ -76,12 +76,15 @@ func add_target(tile):
 	if tile.swarm != null:
 		targets.clear()
 		targets.push_front(tile)
+		update_selection()
 	else:
 		
-		if target_add_counter <= 0:
-			targets.clear()
+#		if target_add_counter <= 0:
+#			targets.clear()
+#			update_selection()
 
 		targets.push_back(tile)
+		tile.update_selection()
 			
 	target_add_counter = target_add_counter_max
 	
@@ -94,19 +97,24 @@ func goto_tile(tile):
 								tile.global_position,
 								(tile.global_position - global_position).length() * speed,
 								Tween.TRANS_QUAD)
-								
-#	$Tween.interpolate_property($Gfx, 
-#								\"rotation_degrees\", 
-#								$Gfx.rotation_degrees, 
-#								20,
-#								0.2,
-#								Tween.TRANS_QUAD)
 
 	$Tween.start()
 	_fly_pitch_ramp(\"up\")
 	
+func update_selection():
+	
+	for tile in GameManager.field.tiles:
+		tile.selected = false
+	
+	for tile in targets:
+		tile.selected = true
+		
+	for tile in GameManager.field.tiles:
+		tile.update_selection()
+
 func perform_action():
 	
+	target.update_selection()
 	target.perform_action()
 	
 func do_harvest_action():
@@ -128,6 +136,8 @@ func do_poison_action():
 	
 	target.poison_swarm()
 	
+	update_selection()
+	
 func _on_Tween_tween_completed(object, key):
 	
 	if object == self:
@@ -147,6 +157,8 @@ func _on_Tween_tween_completed(object, key):
 
 func _on_ActionTimer_timeout():
 	
+	update_selection()
+	target._update_sprite()
 	target = null
 	
 func _fly_pitch_ramp(value):

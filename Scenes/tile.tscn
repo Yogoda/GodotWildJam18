@@ -20,6 +20,8 @@ var wetness
 
 var dry_speed = 0.1
 
+const harvest_amount = 15
+
 var growth_stage = 0
 const growth_stage_max = 6
 
@@ -38,6 +40,28 @@ var gfx_corn_6 = preload(\"res://Sprite/Corn/corn_stage6.png\")
 var targetted_by_swarm
 var swarm
 
+var selected = false
+var active = false
+
+export var selection_color:Color
+export var active_color:Color
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+
+	wetness = wetness_normal
+	
+	set_growth_stage(6)
+	
+#	set_growth_stage(randi() % growth_stage_max)
+#	growth_counter = randi() % growth_rand
+	
+	_flip_random()
+	
+	$selection.hide()
+	$selection2.hide()
+	$Collision.show()
+
 func set_growth_stage(stage):
 	
 	growth_stage = stage
@@ -48,20 +72,6 @@ func set_growth_stage(stage):
 		growth_counter = 0
 
 	_update_sprite()
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-
-	wetness = wetness_normal
-	
-	set_growth_stage(0)
-	
-#	set_growth_stage(randi() % growth_stage_max)
-#	growth_counter = randi() % growth_rand
-
-	show_selection(false)
-	
-	_flip_random()
 	
 func _rand():
 	
@@ -77,14 +87,25 @@ func _flip_random():
 	$earth_wet.flip_h = _rand()
 	
 	$Corn.flip_h = _rand()
+	
+func update_selection():
+	
+	if active or selected:
+		$selection.show()
+		$selection2.show()
+	else:
+		$selection.hide()
+		$selection2.hide()
+		
+	if active:
+		$selection.modulate = active_color
+		$selection2.modulate = active_color
+	elif selected:
+		$selection.modulate = selection_color
+		$selection2.modulate = selection_color
 
 func _update_sprite():
-	
-	var flip = 1
-	
-	if randf() < 0.5:
-		flip = -1
-	
+
 	$earth_dry.visible = false
 	$earth_normal.visible = false
 	$earth_wet.visible = false
@@ -134,32 +155,32 @@ func _physics_process(delta):
 		
 		if growth_counter <= 0:
 			set_growth_stage(growth_stage + 1)
-
-func show_selection(show = true):
 	
-	if show:
-		$selection.show()
-		$selection2.show()
-	else:
-		$selection.hide()
-		$selection2.hide()
-		
 func _on_Collision_input_event(viewport, event, shape_idx):
 	
 	if event is InputEventMouseButton:
 		if event.pressed and event.button_index == BUTTON_LEFT:
 			
 			GameManager.drone.add_target(self)
+			selected = true
+#			update_selection()
 
 func _on_Collision_mouse_entered():
 	
-	show_selection()
+	active = true
 	
+#	mouse drag
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		GameManager.drone.add_target(self)
+		selected = true
+		
+	update_selection()
+		
 
 func _on_Collision_mouse_exited():
-	show_selection(false)
+	
+	active = false
+	update_selection()
 	
 func get_available_action():
 	
@@ -195,12 +216,13 @@ func perform_action():
 		set_growth_stage(1)
 	#harvest
 	elif growth_stage == growth_stage_max:
-		GameManager.silo.add(25)
+		GameManager.silo.add(harvest_amount)
 		set_growth_stage(0)
 	#water
 	else:
 		wetness = wetness_max
-		_update_sprite()
+
+	_update_sprite()
 
 func destroy():
 	
@@ -215,6 +237,8 @@ extents = Vector2( 63.3522, 59.1993 )
 
 [node name="Tile" type="Node2D"]
 script = SubResource( 1 )
+selection_color = Color( 0.454902, 1, 0, 1 )
+active_color = Color( 0.945098, 1, 0, 1 )
 
 [node name="selection" type="Sprite" parent="."]
 position = Vector2( -0.00495744, -81.0365 )
@@ -260,6 +284,7 @@ region_enabled = true
 region_rect = Rect2( 0.435944, 0.553786, 4.6329, 102.851 )
 
 [node name="Collision" type="StaticBody2D" parent="."]
+visible = false
 input_pickable = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
