@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://gui_theme.tres" type="Theme" id=2]
+[ext_resource path="res://Sprite/Logo/bulbigames_logo.png" type="Texture" id=3]
 [ext_resource path="res://Menu/wildcards.png" type="Texture" id=4]
 [ext_resource path="res://Menu/plague.png" type="Texture" id=5]
 
@@ -30,7 +31,7 @@ func _on_BtnStory_pressed():
 flags = 4
 load_path = "res://.import/wild_jam.png-77995630922682bc1c2487424c644378.stex"
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=3]
 script/source = "extends CenterContainer
 
 func _ready():
@@ -40,7 +41,7 @@ func _on_BtnCredits_pressed():
 	$Credits.show()
 "
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=4]
 script/source = "extends PanelContainer
 
 func _on_Close_pressed():
@@ -89,22 +90,22 @@ margin_top = 2.67372
 margin_right = -0.104492
 margin_bottom = 2.67371
 theme = ExtResource( 2 )
-script = SubResource( 4 )
+script = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="Center"]
 margin_left = 340.0
-margin_top = 159.0
+margin_top = 152.0
 margin_right = 684.0
-margin_bottom = 441.0
+margin_bottom = 447.0
 
 [node name="Panel" type="Panel" parent="Center/PanelContainer"]
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 338.0
-margin_bottom = 278.0
+margin_bottom = 291.0
 rect_min_size = Vector2( 170, 200 )
 theme = ExtResource( 2 )
 
@@ -112,7 +113,7 @@ theme = ExtResource( 2 )
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 338.0
-margin_bottom = 278.0
+margin_bottom = 291.0
 custom_constants/margin_right = 16
 custom_constants/margin_top = 16
 custom_constants/margin_left = 16
@@ -125,19 +126,26 @@ __meta__ = {
 margin_left = 16.0
 margin_top = 16.0
 margin_right = 316.0
-margin_bottom = 258.0
+margin_bottom = 271.0
 rect_min_size = Vector2( 100, 100 )
 theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
 margin_right = 300.0
-margin_bottom = 56.0
-rect_min_size = Vector2( 0, 56 )
+margin_bottom = 43.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
+text = "Harvestor-3000"
+align = 1
+
+[node name="Label" type="Label" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 47.0
+margin_right = 300.0
+margin_bottom = 69.0
+theme = ExtResource( 2 )
 text = "Godot Wild Jam #18"
 align = 1
 __meta__ = {
@@ -145,15 +153,15 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 60.0
+margin_top = 73.0
 margin_right = 300.0
-margin_bottom = 146.0
+margin_bottom = 159.0
 texture = ExtResource( 5 )
 
 [node name="BtnStart" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 150.0
+margin_top = 163.0
 margin_right = 300.0
-margin_bottom = 172.0
+margin_bottom = 185.0
 theme = ExtResource( 2 )
 text = "START"
 
@@ -169,30 +177,30 @@ __meta__ = {
 }
 
 [node name="BtnCredits" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 176.0
+margin_top = 189.0
 margin_right = 300.0
-margin_bottom = 198.0
+margin_bottom = 211.0
 theme = ExtResource( 2 )
 text = "CREDITS"
 
 [node name="BtnExit" type="Button" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 202.0
+margin_top = 215.0
 margin_right = 300.0
-margin_bottom = 224.0
+margin_bottom = 237.0
 theme = ExtResource( 2 )
 text = "EXIT"
 
 [node name="LinkButton" type="LinkButton" parent="Center/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 228.0
+margin_top = 241.0
 margin_right = 300.0
-margin_bottom = 242.0
+margin_bottom = 255.0
 text = "https://itch.io/jam/godot-wild-jam-18"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="wildcards3" type="Sprite" parent="Center"]
-position = Vector2( 783.445, 451.326 )
+position = Vector2( 811.866, 452.379 )
 rotation = 0.785397
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )
@@ -200,7 +208,7 @@ region_enabled = true
 region_rect = Rect2( 2, -3, 223, 305 )
 
 [node name="wildcards2" type="Sprite" parent="Center"]
-position = Vector2( 674.115, 400.801 )
+position = Vector2( 697.273, 405.011 )
 rotation = 0.261799
 scale = Vector2( 0.704992, 0.704992 )
 texture = ExtResource( 4 )
@@ -213,13 +221,13 @@ margin_left = 506.0
 margin_top = 296.0
 margin_right = 518.0
 margin_bottom = 304.0
-script = SubResource( 3 )
+script = SubResource( 4 )
 
 [node name="Panel" type="Panel" parent="Center/Credits"]
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 492.0
-margin_bottom = 356.0
+margin_bottom = 492.0
 rect_min_size = Vector2( 170, 200 )
 theme = ExtResource( 2 )
 
@@ -227,7 +235,7 @@ theme = ExtResource( 2 )
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 492.0
-margin_bottom = 356.0
+margin_bottom = 492.0
 custom_constants/margin_right = 16
 custom_constants/margin_top = 16
 custom_constants/margin_left = 16
@@ -240,7 +248,7 @@ __meta__ = {
 margin_left = 16.0
 margin_top = 16.0
 margin_right = 470.0
-margin_bottom = 336.0
+margin_bottom = 472.0
 rect_min_size = Vector2( 100, 100 )
 theme = ExtResource( 2 )
 __meta__ = {
@@ -262,17 +270,31 @@ __meta__ = {
 [node name="PanelContainer" type="PanelContainer" parent="Center/Credits/MarginContainer/VBoxContainer"]
 margin_top = 60.0
 margin_right = 454.0
-margin_bottom = 294.0
+margin_bottom = 430.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="bulbigames" type="Sprite" parent="Center/Credits/MarginContainer/VBoxContainer/PanelContainer"]
+position = Vector2( 352.104, 66.8263 )
+scale = Vector2( 0.414258, 0.416667 )
+texture = ExtResource( 3 )
 
 [node name="Label" type="Label" parent="Center/Credits/MarginContainer/VBoxContainer/PanelContainer"]
 margin_left = 6.0
 margin_top = 4.0
 margin_right = 448.0
-margin_bottom = 230.0
-text = "Music by Eric Matyas
+margin_bottom = 366.0
+text = "Code:
+Yogoda
+
+Art:
+Astadriel
+
+Tester:
+Rakshir
+
+Music by Eric Matyas
 \"Machine-Madness\"
 www.soundimage.org
 
@@ -283,16 +305,15 @@ gynation: rain-on-plastic-roof.wav (https://freesound.org/)
 rtb45: mount-moganshan-insect-chorus.wav (https://freesound.org/)
 jrssandoval: shower.wav (https://freesound.org/)
 
-Tester:
-Rakshir"
+"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Close" type="Button" parent="Center/Credits/MarginContainer/VBoxContainer"]
-margin_top = 298.0
+margin_top = 434.0
 margin_right = 454.0
-margin_bottom = 320.0
+margin_bottom = 456.0
 text = "CLOSE"
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnStart" to="." method="_on_BtnStart_pressed"]
 [connection signal="pressed" from="Center/PanelContainer/MarginContainer/VBoxContainer/BtnStory" to="." method="_on_BtnStory_pressed"]

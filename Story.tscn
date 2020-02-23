@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sprite/Corn/corn_stage6.png" type="Texture" id=1]
 [ext_resource path="res://Sprite/Swarm/swarm1.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://GUI/Fonts/Noto_Sans/NotoSans-Bold.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://GUI/mustard.tres" type="StyleBox" id=7]
 [ext_resource path="res://Sprite/Background/background.png" type="Texture" id=8]
+[ext_resource path="res://Music/Technoscape.ogg" type="AudioStream" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.458824, 0.4, 0.254902, 1 )
@@ -145,4 +146,9 @@ margin_left = 512.0
 margin_top = 300.0
 margin_right = 512.0
 margin_bottom = 300.0
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -10.0
+autoplay = true
 [connection signal="pressed" from="Control/PanelContainer/Panel/MarginContainer/VBoxContainer/BtnStart" to="Control" method="_on_BtnStart_pressed"]

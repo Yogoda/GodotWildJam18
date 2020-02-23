@@ -15,7 +15,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Godot Wild Jam 18"
+config/name="Harvestor-3000"
+config/description="A farming drone's struggle to reach harvesting quotas for the year."
 run/main_scene="res://Menu/Menu.tscn"
 boot_splash/bg_color=Color( 0.0784314, 0.133333, 0.25098, 1 )
 config/icon="res://icon.png"
