@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://GUI/GUI_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://GUI/GUI_theme.tres" type="Theme" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Music/Victory.ogg" type="AudioStream" id=6]
 [ext_resource path="res://Music/Defeat.ogg" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/button.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sprite/Drone/drone1.png" type="Texture" id=9]
+[ext_resource path="res://Sprite/Drone/drone2.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -106,9 +108,59 @@ func _on_BtnMenu_pressed():
 bg_color = Color( 0.780392, 0.564706, 0.227451, 1 )
 
 [sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 0.960784, 0.556863, 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Fly"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 9 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Dance"
+length = 0.9
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.225, 0.311959, 0.45, 0.675, 0.9 ),
+"transitions": PoolRealArray( 2.21914, 1, 1, 1, 1, 0.466517 ),
+"update": 0,
+"values": [ Vector2( 69.364, 61.5808 ), Vector2( 142.138, 120.388 ), Vector2( 172.253, 98.8912 ), Vector2( 220.058, 64.7662 ), Vector2( 142.138, 120.388 ), Vector2( 69.364, 61.5808 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.225, 0.45, 0.675, 0.9 ),
+"transitions": PoolRealArray( 1.8025, 1, 1, 1, 0.482968 ),
+"update": 0,
+"values": [ -38.058, -0.586129, 35.0495, -0.586129, -38.058 ]
+}
+
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.278431, 0.168627, 0, 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=7]
 size = 20
 font_data = ExtResource( 5 )
 
@@ -117,6 +169,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource( 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 menu_path = NodePath("Menus/Victory/MarginContainer/VBoxContainer")
@@ -173,21 +226,25 @@ __meta__ = {
 
 [node name="Victory" type="PanelContainer" parent="Menus"]
 margin_left = 345.0
-margin_top = 197.0
+margin_top = 103.0
 margin_right = 679.0
-margin_bottom = 402.0
+margin_bottom = 497.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="Menus/Victory"]
 margin_right = 334.0
-margin_bottom = 205.0
+margin_bottom = 394.0
 theme = ExtResource( 2 )
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
 custom_constants/margin_left = 20
 custom_constants/margin_bottom = 20
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -195,8 +252,11 @@ __meta__ = {
 margin_left = 20.0
 margin_top = 20.0
 margin_right = 314.0
-margin_bottom = 185.0
+margin_bottom = 374.0
 theme = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="Menus/Victory/MarginContainer/VBoxContainer"]
 margin_right = 294.0
@@ -217,29 +277,55 @@ custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
 text = "VICTORY, GREAT JOB!"
 align = 1
 
-[node name="BtnNext" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Menus/Victory/MarginContainer/VBoxContainer"]
 margin_top = 79.0
 margin_right = 294.0
-margin_bottom = 120.0
+margin_bottom = 264.0
+rect_min_size = Vector2( 0, 185 )
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DancingDrone" type="Node2D" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer"]
+
+[node name="Sprite" type="Sprite" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone"]
+position = Vector2( 69.364, 61.5808 )
+rotation = -0.664238
+texture = ExtResource( 9 )
+
+[node name="Fly" type="AnimationPlayer" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone"]
+autoplay = "Fly"
+anims/Fly = SubResource( 4 )
+
+[node name="Dance" type="AnimationPlayer" parent="Menus/Victory/MarginContainer/VBoxContainer/PanelContainer/DancingDrone"]
+autoplay = "Dance"
+anims/Dance = SubResource( 5 )
+
+[node name="BtnNext" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
+margin_top = 268.0
+margin_right = 294.0
+margin_bottom = 309.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Next Year"
 
 [node name="BtnMenu" type="Button" parent="Menus/Victory/MarginContainer/VBoxContainer"]
-margin_top = 124.0
+margin_top = 313.0
 margin_right = 294.0
-margin_bottom = 165.0
+margin_bottom = 354.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Menu"
 
 [node name="Defeat" type="PanelContainer" parent="Menus"]
-margin_left = 325.0
-margin_top = 197.0
-margin_right = 698.0
-margin_bottom = 402.0
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 512.0
+margin_bottom = 300.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
 
@@ -387,10 +473,11 @@ custom_colors/font_color = Color( 1, 0.717647, 0.27451, 1 )
 text = "Done"
 
 [node name="Help" type="PanelContainer" parent="Menus"]
-margin_left = 164.0
-margin_top = 35.0
-margin_right = 859.0
-margin_bottom = 564.0
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 512.0
+margin_bottom = 300.0
 theme = ExtResource( 2 )
 custom_styles/panel = SubResource( 2 )
 
@@ -426,14 +513,14 @@ margin_top = 39.0
 margin_right = 655.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 0, 1 )
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 6 )
 
 [node name="Descr" type="Label" parent="Menus/Help/MarginContainer/VBoxContainer"]
 margin_top = 44.0
 margin_right = 655.0
 margin_bottom = 444.0
 rect_min_size = Vector2( 655, 0 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 0.278431, 0.168627, 0, 1 )
 text = "Your goal is to fill the silo with grain before winter comes.
 
