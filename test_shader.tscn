@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/Corn/corn_stage6.png" type="Texture" id=1]
+[ext_resource path="res://wheat_shader.tres" type="Shader" id=2]
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 2 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="corn_stage6" type="Sprite" parent="."]
+material = SubResource( 12 )
+position = Vector2( 95.6259, 145.464 )
+texture = ExtResource( 1 )
