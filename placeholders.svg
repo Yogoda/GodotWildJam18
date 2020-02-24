@@ -23,14 +23,26 @@
   <defs
      id="defs2">
     <linearGradient
+       id="linearGradient4771"
+       inkscape:collect="always">
+      <stop
+         id="stop4767"
+         offset="0"
+         style="stop-color:#00ff00;stop-opacity:1" />
+      <stop
+         id="stop4769"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0" />
+    </linearGradient>
+    <linearGradient
        inkscape:collect="always"
        id="linearGradient4759">
       <stop
-         style="stop-color:#00a6ff;stop-opacity:1;"
+         style="stop-color:#3d7b74;stop-opacity:1"
          offset="0"
          id="stop4755" />
       <stop
-         style="stop-color:#00a6ff;stop-opacity:0;"
+         style="stop-color:#ffffff;stop-opacity:0"
          offset="1"
          id="stop4757" />
     </linearGradient>
@@ -111,11 +123,21 @@
        inkscape:collect="always"
        xlink:href="#linearGradient4759"
        id="linearGradient4761"
-       x1="177.73448"
-       y1="22.047132"
-       x2="185.49902"
-       y2="19.212311"
+       x1="180.33307"
+       y1="20.629723"
+       x2="189.13704"
+       y2="16.755466"
        gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4771"
+       id="linearGradient4765"
+       gradientUnits="userSpaceOnUse"
+       x1="180.33307"
+       y1="20.629723"
+       x2="189.13704"
+       y2="16.755466"
+       gradientTransform="matrix(0.35638428,0,0,0.98976027,126.48794,0.17850977)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -124,9 +146,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="726.84487"
-     inkscape:cy="1054.6662"
+     inkscape:zoom="1.4"
+     inkscape:cx="473.64115"
+     inkscape:cy="924.40947"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -3452,6 +3474,15 @@ kc1bWNxaZ46BhdcX0meOl7BCjMW/mTI/3lurcRLGaQIJ/F+yORNSZZFcBAAAAABJRU5ErkJggg==
        width="10.638008"
        id="rect4729"
        style="opacity:1;vector-effect:none;fill:url(#linearGradient4731);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="41.138912"
+       inkscape:export-xdpi="41.138912"
+       inkscape:export-filename="C:\Dev\Godot\GodotWildJam18\Sprite\poison.png"
+       sodipodi:nodetypes="ccsscc"
+       inkscape:connector-curvature="0"
+       id="path4763"
+       d="m 191.40127,12.866206 c -0.6204,12.066534 -1.40666,9.502357 -1.5548,13.767292 -0.14305,2.673837 0.65765,4.299499 1.3458,4.478576 0.73193,0.190472 1.59522,-0.864107 1.7092,-4.008421 0.17619,-4.860474 -1.21813,-2.365709 -1.5002,-14.237444 z"
+       style="fill:url(#linearGradient4765);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.15439762px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
     <path
        style="fill:url(#linearGradient4761);fill-opacity:1;stroke:none;stroke-width:0.25996587px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-rule:nonzero"
        d="m 182.14418,12.818959 c -1.7408,12.19137 -3.94702,9.600665 -4.36269,13.909724 -0.40139,2.701499 1.84534,4.34398 3.77626,4.52491 2.05377,0.192442 4.47611,-0.873047 4.79593,-4.049891 0.49438,-4.910759 -3.41801,-2.390184 -4.2095,-14.38474 z"
